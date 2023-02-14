@@ -12,11 +12,6 @@ const Setting = () => {
 
   const disaptch = useDispatch();
 
-//   // Get state test
-//   const stateTest = useSelector((state) => state);
-//   console.log('Via selector' , stateTest);
-
-
 
   return (
     <>
