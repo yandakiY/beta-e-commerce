@@ -1,0 +1,111 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "index": "sports",
+      "name": "Sporting Goods"
+    },
+    {
+      "id": 2,
+      "index": "elec",
+      "name": "Electronics"
+    },
+    {
+      "id": 3,
+      "index": "edu",
+      "name": "Education"
+    },
+    {
+      "index": "pol",
+      "name": "Politique",
+      "id": 4
+    }
+  ],
+  "lists": [
+    {
+      "id": 1,
+      "indexArt": "foot",
+      "category": "Sporting Goods",
+      "price": "49.99",
+      "stocked": true,
+      "name": "Football",
+      "number": 14
+    },
+    {
+      "id": 3,
+      "indexArt": "back",
+      "category": "Sporting Goods",
+      "price": "29.99",
+      "stocked": true,
+      "name": "Basketball",
+      "number": 5
+    },
+    {
+      "id": 4,
+      "indexArt": "ipod",
+      "category": "Electronics",
+      "price": "99.99",
+      "stocked": false,
+      "name": "iPod Touch",
+      "number": 0
+    },
+    {
+      "id": 5,
+      "indexArt": "iphone5",
+      "category": "Electronics",
+      "price": "399.99",
+      "stocked": true,
+      "name": "iPhone 5",
+      "number": 8
+    },
+    {
+      "id": 6,
+      "indexArt": "nexus",
+      "category": "Education",
+      "price": "199.99",
+      "stocked": true,
+      "name": "Nexus 7",
+      "number": 2
+    },
+    {
+      "indexArt": "",
+      "category": "Politique",
+      "name": "Un depart Nouveau - Albert R",
+      "price": "45.2",
+      "stocked": false,
+      "id": 8,
+      "number": 0
+    },
+    {
+      "category": "Education",
+      "name": "Lecture CM",
+      "price": "9.9",
+      "stocked": true,
+      "id": 9,
+      "number": 6
+    },
+    {
+      "category": "Electronics",
+      "name": "Iphone XS Max",
+      "price": "999.9",
+      "number": "5",
+      "stocked": true,
+      "id": 10
+    },
+    {
+      "category": "Politique",
+      "name": "Macron Prodige - Sylvain Dupuis",
+      "price": "39.9",
+      "number": "0",
+      "stocked": false,
+      "id": 11
+    }
+  ]
+}

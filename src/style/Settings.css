@@ -1,0 +1,9 @@
+table , td{
+    border: solid 1px black;
+    margin:auto;
+}
+
+thead{
+    color: white;
+    background-color: rgba(18, 15, 15, 0.901);
+}

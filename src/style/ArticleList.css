@@ -1,0 +1,18 @@
+.entete{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-weight: bold;
+    font-family: consolas;
+}
+
+.lists{
+    display: flex;
+    flex-direction: column;
+}
+
+.lists .listItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
