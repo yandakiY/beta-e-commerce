@@ -92,20 +92,20 @@
       "number": 6
     },
     {
-      "category": "Electronics",
-      "name": "Iphone XS Max",
-      "price": "999.9",
-      "number": "5",
-      "stocked": true,
-      "id": 10
-    },
-    {
       "category": "Politique",
       "name": "Macron Prodige - Sylvain Dupuis",
       "price": "39.9",
       "number": "0",
       "stocked": false,
       "id": 11
+    },
+    {
+      "category": "Electronics",
+      "name": "POO for beginner",
+      "price": "45.9",
+      "number": "2",
+      "stocked": true,
+      "id": 12
     }
   ]
 }

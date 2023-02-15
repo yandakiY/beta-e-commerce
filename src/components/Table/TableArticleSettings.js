@@ -2,6 +2,12 @@ import React, { useEffect } from 'react'
 import { useSelector , useDispatch } from 'react-redux'
 import { actionsCategory } from '../../store/category-slice';
 import { actionsLists } from '../../store/lists-slice';
+import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
+import { Container, Row , Col } from 'react-bootstrap';
+import { actionsModal } from '../../store/modal-slice';
+import TableRowArticle from '../TableRowArticle';
+
 
 const TableArticleSettings = () => {
 
@@ -10,28 +16,37 @@ const TableArticleSettings = () => {
     const lists = useSelector(state  => state.lists.lists)
     const category = useSelector(state  => state.category.category)
 
-    // delete element of lists from server
-    const deleteElementLists = async (id) =>{
-        const res = await fetch(`http://localhost:5000/lists/${id}`,{
-            method:'DELETE',
-            headers:{
-                'Content-type':'application/json'
-            }
-        })
+    // Use redux for give state of Modal (show or not Modal)
+    const show = useSelector(state => state.modal.show);
 
-        const data = res.json();
-
-        console.log(data)
+    // Dispatch setShow
+    const testShow = () =>{
+        dispatch(actionsModal.showModal());
+        console.log(show);
     }
 
-    // Fonction delete a article in the table and Database
-    const deleteArticle = id => {
-        dispatch(actionsLists.deleteList(id))
-        console.log("Delete article",id)
-        // console.log(lists)
+    // // delete element of lists from server
+    // const deleteElementLists = async (id) =>{
+    //     const res = await fetch(`http://localhost:5000/lists/${id}`,{
+    //         method:'DELETE',
+    //         headers:{
+    //             'Content-type':'application/json'
+    //         }
+    //     })
 
-        deleteElementLists(id);
-    }
+    //     const data = res.json();
+
+    //     console.log(data)
+    // }
+
+    // // Fonction delete a article in the Table and Database
+    // const deleteArticle = id => {
+    //     dispatch(actionsLists.deleteList(id))
+    //     console.log("Delete article",id)
+    //     // console.log(lists)
+
+    //     deleteElementLists(id);
+    // }
 
     //get element lists from server
     const getLists = async () =>{
@@ -73,40 +88,41 @@ const TableArticleSettings = () => {
     
 
   return (
-    <>
+    <Container fluid>
         <h2>Articles availables : </h2>
-        <table style={{padding:'15px', fontSize:'17px'}}>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    {/* <th>Category</th> */}
-                    <th>Price</th>
-                    <th>Number of Article</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            
-            {category.map(e => e.name).map((cat, index) =>
-                <tbody key={index}>
-                    <tr  key={index}>
-                        <td style={{color:'white' , backgroundColor:'darkgray' , fontWeight:'bold'}} colSpan='4'>{cat}</td>
-                        <td>{"Update"}</td>
-                    </tr>
-                    {lists.map((e,i) => e.category === cat && 
-                        <tr style={{color: e.stocked === false && 'red' , fontWeight: e.stocked === false && 'bold'}} key={i}>
-                            <td>{e.id}</td>
-                            <td>{e.name}</td>
-                            <td>${e.price}</td>
-                            <td>{e.number}</td>
-                            <td><button style={{cursor:'pointer',  background:'skyblue'}}>{"Change Value"}</button>  <button style={{cursor:'pointer', color:'white',background:'red'}} onClick={() => deleteArticle(e.id)}>Delete</button></td>
+        <Row className='justify-content-md-center'>
+            {/* <Col lg={2}>Part with lg - 3 </Col> */}
+            <Col lg={7}>
+                <Table bordered size="sm" variant='' style={{padding:'15px', fontSize:'17px'}}>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            {/* <th>Category</th> */}
+                            <th>Price</th>
+                            <th>Number of Article</th>
+                            <th>Options</th>
                         </tr>
+                    </thead>
+                    
+                    {category.map(e => e.name).map((cat, index) =>
+                        <tbody key={index}>
+                            <tr key={index}>
+                                <td style={{color:'white' , backgroundColor:'darkgray' , fontWeight:'bold'}} colSpan='4'>{cat}</td>
+                                <td><Button variant='link'>Update</Button></td>
+                            </tr>
+                            {lists.map((e,i) => e.category === cat && 
+                                    <TableRowArticle key={i} article={e}/>
+                                    /* {show && <span key={i}>Alert</span>} */
+                            )}
+                        </tbody>
                     )}
-                </tbody>
-            )}
-            
-        </table>
-    </>
+                    
+                </Table>
+            </Col>
+            {/* <Col lg={3}>Part with lg - 3 </Col> */}
+        </Row>
+    </Container>
   )
 }
 

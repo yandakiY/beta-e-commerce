@@ -4,6 +4,8 @@ import AddCategories from './Form/AddCategories'
 import '../style/Settings.css'
 import TableArticleSettings from './Table/TableArticleSettings'
 import {useSelector , useDispatch} from 'react-redux'
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
 
 const Setting = () => {
 
@@ -19,8 +21,9 @@ const Setting = () => {
             <h1>Settings</h1>
 
             <div style={{display:'flex' , justifyContent:'space-evenly'}}>
-                <button style={{background: viewAddCategories && 'red' , color: viewAddCategories && 'white', fontWeight:'bold'}} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</button>
-                <button style={{background: viewAddArticles && 'red' , color: viewAddArticles && 'white', fontWeight:'bold'}} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</button>
+                <Button variant={viewAddCategories === false ? 'info' : 'danger'} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</Button>
+                <Button variant={viewAddArticles === false ? 'info' : 'danger'} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</Button>
+                
             </div>
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
