@@ -9,83 +9,51 @@ import { actionsModal } from '../../store/modal-slice';
 import TableRowArticle from '../TableRowArticle';
 
 
-const TableArticleSettings = () => {
+const TableArticleSettings = ({category , lists}) => {
 
-    const dispatch = useDispatch();
-    // Use redux for the access of state article and category
-    const lists = useSelector(state  => state.lists.lists)
-    const category = useSelector(state  => state.category.category)
+    // const dispatch = useDispatch();
+    // // Use redux for the access of state article and category
+    // const lists = useSelector(state  => state.lists.lists)
+    // const category = useSelector(state  => state.category.category)
 
-    // Use redux for give state of Modal (show or not Modal)
-    const show = useSelector(state => state.modal.show);
-
-    // Dispatch setShow
-    const testShow = () =>{
-        dispatch(actionsModal.showModal());
-        console.log(show);
-    }
-
-    // // delete element of lists from server
-    // const deleteElementLists = async (id) =>{
-    //     const res = await fetch(`http://localhost:5000/lists/${id}`,{
-    //         method:'DELETE',
-    //         headers:{
-    //             'Content-type':'application/json'
-    //         }
-    //     })
-
-    //     const data = res.json();
-
-    //     console.log(data)
+    // //get element lists from server
+    // const getLists = async () =>{
+    //     const res = await fetch('http://localhost:5000/lists');
+    //     const data = await res.json();
+    
+    //     // console.log(data)
+    //     return data; 
+    // }
+    // const getCategory = async () =>{
+    //     const res = await fetch('http://localhost:5000/category');
+    //     const data = await res.json();
+    
+    //     // console.log(data)
+    //     return data; 
     // }
 
-    // // Fonction delete a article in the Table and Database
-    // const deleteArticle = id => {
-    //     dispatch(actionsLists.deleteList(id))
-    //     console.log("Delete article",id)
-    //     // console.log(lists)
-
-    //     deleteElementLists(id);
-    // }
-
-    //get element lists from server
-    const getLists = async () =>{
-        const res = await fetch('http://localhost:5000/lists');
-        const data = await res.json();
-    
-        // console.log(data)
-        return data; 
-    }
-    const getCategory = async () =>{
-        const res = await fetch('http://localhost:5000/category');
-        const data = await res.json();
-    
-        // console.log(data)
-        return data; 
-    }
-
     
 
-    useEffect(() => {
-        const getListsFromServer = async () =>{
-            let listFormServer = await getLists();
+    // useEffect(() => {
+    //     const getListsFromServer = async () =>{
+    //         let listFormServer = await getLists();
 
-            dispatch(actionsLists.setLists(listFormServer));
-        }
-        const getCategoryFromServer = async () =>{
-            let categoryFormServer = await getCategory();
+    //         dispatch(actionsLists.setLists(listFormServer));
+    //     }
+    //     const getCategoryFromServer = async () =>{
+    //         let categoryFormServer = await getCategory();
 
-            dispatch(actionsCategory.setCategory(categoryFormServer));
-        }
+    //         dispatch(actionsCategory.setCategory(categoryFormServer));
+    //     }
 
-        getListsFromServer();
-        getCategoryFromServer();
-    }, []);
+    //     getListsFromServer();
+    //     getCategoryFromServer();
+    // }, []);
 
     
     // console.log(lists)
 
-    
+    console.log("Lists like props", lists)
 
   return (
     <Container fluid>
@@ -111,9 +79,8 @@ const TableArticleSettings = () => {
                                 <td style={{color:'white' , backgroundColor:'darkgray' , fontWeight:'bold'}} colSpan='4'>{cat}</td>
                                 <td><Button variant='link'>Update</Button></td>
                             </tr>
-                            {lists.map((e,i) => e.category === cat && 
-                                    <TableRowArticle key={i} article={e}/>
-                                    /* {show && <span key={i}>Alert</span>} */
+                            {lists.map((article,i) => article.category === cat && 
+                                    <TableRowArticle key={i} article={article}/>
                             )}
                         </tbody>
                     )}
