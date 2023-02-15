@@ -35,7 +35,7 @@ const ArticleList = ({lists , category}) => {
 
                     <div key={index} className='lists'>
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                        {lists.lists.map((list , index) => list.category === cat && 
+                        {lists.map((list , index) => list.category === cat && 
                             <div className='listItem' style={{color: list.stocked === false && 'red', fontWeight: list.stocked === false && 'bold'}} key={index}>
                                 <span>{list.name}</span>
                                 <span>${list.price}</span>
@@ -52,7 +52,7 @@ const ArticleList = ({lists , category}) => {
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
 
                         {/* Articles by category.category.map(e => e.name) */}
-                        {lists.lists.map((list , index) => 
+                        {lists.map((list , index) => 
                             
                             (list.category === cat && list.name.match(search))     
                                 && 
@@ -74,7 +74,7 @@ const ArticleList = ({lists , category}) => {
 
                     <div key={index} className='lists'>
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                        {lists.lists.map((list , index) => (list.category === cat && list.stocked === true) && 
+                        {lists.map((list , index) => (list.category === cat && list.stocked === true) && 
                             <div className='listItem' style={{color:list.stocked === false && 'red', fontWeight:list.stocked === false && 'bold'}} key={index}>
                                 <span>{list.name}</span>
                                 <span>${list.price}</span>
@@ -89,7 +89,7 @@ const ArticleList = ({lists , category}) => {
 
                 <div key={index} className='lists'>
                     <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                    {lists.lists.map((list , index) => 
+                    {lists.map((list , index) => 
                         
                         (list.category === cat && list.name.match(search) && list.stocked === true)     
                             &&
