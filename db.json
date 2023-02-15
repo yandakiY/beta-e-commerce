@@ -92,14 +92,6 @@
       "number": 6
     },
     {
-      "category": "Electronics",
-      "name": "POO for beginner",
-      "price": "45.9",
-      "number": "2",
-      "stocked": true,
-      "id": 12
-    },
-    {
       "category": "",
       "name": "All Star NBA - package",
       "price": "99.5",

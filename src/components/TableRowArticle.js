@@ -7,6 +7,8 @@ import {useForm} from 'react-hook-form'
 import axios from 'axios';
 import { actionsCategory } from '../store/category-slice';
 import UpdateArticle from './Modal-Components/UpdateArticle';
+import { BsThreeDotsVertical } from "react-icons/bs";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const TableRowArticle = ({article}) => {
 
@@ -32,8 +34,7 @@ const TableRowArticle = ({article}) => {
     // Put Modal in the screen
     const handleShow = () =>{
         dispatch(actionsModal.showModal())
-        console.log("Article selected",article) ;
-        // alert("Article Id : "+ article.id + "\nName Article : "+ article.name+"\nCategory "+article.category)
+        console.log("Article selected",article)
     }
 
     // Close Modal
@@ -80,8 +81,19 @@ const TableRowArticle = ({article}) => {
             <td>{article.name}</td>
             <td>${article.price}</td>
             <td>{article.number}</td>
-            <td><Button onClick={handleShow} variant='primary'>{"Change Value"}</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>{"Delete"}</Button></td>
-            {/* {show && <td>Modal {article.id} <span>Delete</span> </td>} */}
+            <td>
+                <Dropdown>
+                    <Dropdown.Toggle variant="" id="dropdown-basic">
+                        <BsThreeDotsVertical />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => handleShow()}>Update of {article.id}</Dropdown.Item>
+                        <Dropdown.Item onClick={() => deleteArticle(article.id)}>Delete</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </td>
+            {/* <td><Button onClick={handleShow} variant='primary'>{"Change Value"}</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>{"Delete"}</Button></td> */}
             
             {/* Modal Components */}
             <UpdateArticle show={show} handleClose={handleClose} article={article} />
