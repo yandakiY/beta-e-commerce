@@ -1,57 +1,14 @@
-import React, { useEffect } from 'react'
-import { useSelector , useDispatch } from 'react-redux';
-import { actionsCategory } from '../store/category-slice';
-import { actionsLists } from '../store/lists-slice';
+import React from 'react'
+import { useSelector } from 'react-redux';
 import '../style/ArticleList.css'
 
-const ArticleList = () => {
-
-    const getLists = async () =>{
-        const res = await fetch('http://localhost:5000/lists');
-        const data = await res.json();
-    
-        // console.log(data)
-        return data; 
-    }
-      
-    const getCategory = async () =>{
-        const res = await fetch('http://localhost:5000/category');
-        const data = await res.json();
-
-        // console.log(data) 
-        return data; 
-    }
-
-    const disaptch = useDispatch();
-
-    // Les states a afficher
-    let lists = useSelector(state => state.lists)
-    let category = useSelector(state => state.category)
-
+const ArticleList = ({lists , category}) => {
 
     // Les filters 
-    let search = useSelector(state => state.filter.search)
-    let available = useSelector(state => state.filter.available)
+  let search = useSelector(state => state.filter.search)
+  let available = useSelector(state => state.filter.available)
 
 
-    useEffect(() => {
-        let getListsFromServer = async () =>{
-          let listFormServer = await getLists()
-          
-          //Mise a jour du state
-          disaptch(actionsLists.setLists(listFormServer))
-        } 
-    
-        let getCategoryFromServer = async () =>{
-          let categoryFormServer = await getCategory()
-    
-          //Mise a jour du state
-          disaptch(actionsCategory.setCategory(categoryFormServer))
-        } 
-    
-        getListsFromServer()
-        getCategoryFromServer();
-      }, []);
   return (
     <div>
         
@@ -74,7 +31,7 @@ const ArticleList = () => {
             /* Button view available en mode Off */
             (!search ? 
             /* Lists of Articles By Category - Not filter */
-                (category.category.map(e => e.name).map((cat , index) => 
+                (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
@@ -89,7 +46,7 @@ const ArticleList = () => {
                 ))
                     :
                 /* Lists of Articles By Category - With filter (Search in this case) */
-                (category.category.map(e => e.name).map((cat , index) => 
+                (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
@@ -113,7 +70,7 @@ const ArticleList = () => {
             : 
             (!search ? 
             /* Lists of Articles By Category - Not filter */
-                (category.category.map(e => e.name).map((cat , index) => 
+                (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
                         <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
@@ -128,7 +85,7 @@ const ArticleList = () => {
                 ))
                     :
                 /* Lists of Articles By Category - With filter */
-                 (category.category.map(e => e.name).map((cat , index) => 
+                 (category.map(e => e.name).map((cat , index) => 
 
                 <div key={index} className='lists'>
                     <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
