@@ -53,7 +53,7 @@ const TableArticleSettings = ({category , lists}) => {
     
     // console.log(lists)
 
-    console.log("Lists like props", lists)
+    // console.log("Lists like props", lists)
 
   return (
     <Container fluid>

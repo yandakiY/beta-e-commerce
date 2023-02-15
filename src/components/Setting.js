@@ -20,44 +20,47 @@ const Setting = () => {
     const lists = useSelector(state  => state.lists.lists)
     const category = useSelector(state  => state.category.category)
 
+    // console.log("Lists ", lists)
+    // console.log("Category ", category)
+
     // //get element lists from server
-    // const getLists = async () =>{
-    //     const res = await fetch('http://localhost:5000/lists');
-    //     const data = await res.json();
+    const getLists = async () =>{
+        const res = await fetch('http://localhost:5000/lists');
+        const data = await res.json();
     
-    //     // console.log(data)
-    //     return data; 
-    // }
+        // console.log(data)
+        return data; 
+    }
 
-    // const getCategory = async () =>{
-    //     const res = await fetch('http://localhost:5000/category');
-    //     const data = await res.json();
+    const getCategory = async () =>{
+        const res = await fetch('http://localhost:5000/category');
+        const data = await res.json();
     
-    //     // console.log(data)
-    //     return data; 
-    // }
+        // console.log(data)
+        return data; 
+    }
 
     
 
-    // useEffect(() => {
-    //     const getListsFromServer = async () =>{
-    //         let listFormServer = await getLists();
+    useEffect(() => {
+        const getListsFromServer = async () =>{
+            let listFormServer = await getLists();
 
-    //         dispatch(actionsLists.setLists(listFormServer));
+            dispatch(actionsLists.setLists(listFormServer));
 
-    //     }
-    //     const getCategoryFromServer = async () =>{
-    //         let categoryFormServer = await getCategory();
+        }
+        const getCategoryFromServer = async () =>{
+            let categoryFormServer = await getCategory();
 
-    //         dispatch(actionsCategory.setCategory(categoryFormServer));
-    //     }
+            dispatch(actionsCategory.setCategory(categoryFormServer));
+        }
 
-    //     getListsFromServer();
-    //     getCategoryFromServer();
+        getListsFromServer();
+        getCategoryFromServer();
 
-    //     // console.log("Category",category)
-    //     // console.log("Lists of articles",lists)
-    // }, []);
+        // console.log("Category",category)
+        // console.log("Lists of articles",lists)
+    }, []);
 
     // console.log("Category", category)
 

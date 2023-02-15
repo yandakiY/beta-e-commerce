@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import ErrorPage from './components/ErrorPage';
 import About from './components/About';
 import Setting, { submitArt, submitCat } from './components/Setting';
-import {Provider} from 'react-redux'
+import {Provider, useSelector} from 'react-redux'
 import store from './store';
 
 // Bootstrap CSS
@@ -15,6 +15,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
+// *****
+// const lists = useSelector(state => state.lists.lists)
+// const category = useSelector(state => state.category.category)
+// *****
 const router = createBrowserRouter([
   {
     path:'/',
