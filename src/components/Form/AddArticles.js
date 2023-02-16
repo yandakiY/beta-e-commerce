@@ -74,7 +74,7 @@ const AddArticles = () => {
             </div>
             <div style={{display:'flex' , flexDirection:'column'}}>
                 <label>Name  Articles</label>
-                <input {...register('name' ,{required: 'Name is required' , minLength:{value:3 , message: 'Should be more or eq to 3'}})} style={{padding:'.6rem'}} type={'text'}/> 
+                <input {...register('name' , {required: 'Name is required' , minLength:{value:3 , message: 'Should be more or eq to 3'}})} style={{padding:'.6rem'}} type={'text'}/> 
                 <span style={{color:'red'}}>{errors.name?.message}</span>
             </div>
             

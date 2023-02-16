@@ -34,34 +34,24 @@
       "category": "Sporting Goods",
       "name": "Football",
       "price": "49.99",
-      "number": "1",
-      "stocked": true
-    },
-    {
-      "id": 3,
-      "indexArt": "back",
-      "category": "Sporting Goods",
-      "price": "29.99",
-      "stocked": true,
-      "name": "Basketball",
-      "number": 5
+      "number": "0",
+      "stocked": false
     },
     {
       "id": 4,
       "category": "Electronics",
       "name": "iPod Touch",
-      "price": "99.99",
+      "price": "100.99",
       "number": "0",
       "stocked": false
     },
     {
       "id": 5,
-      "indexArt": "iphone5",
       "category": "Electronics",
-      "price": "399.99",
-      "stocked": true,
       "name": "iPhone 5",
-      "number": 8
+      "price": "399.99",
+      "number": "18",
+      "stocked": true
     },
     {
       "id": 6,
@@ -82,12 +72,12 @@
       "number": 0
     },
     {
+      "id": 9,
       "category": "Education",
       "name": "Lecture CM",
       "price": "9.9",
-      "stocked": true,
-      "id": 9,
-      "number": 6
+      "number": "0",
+      "stocked": false
     },
     {
       "category": "",
@@ -102,8 +92,16 @@
       "category": "Sporting Goods",
       "name": "NBA package",
       "price": "15.99",
-      "number": "0",
-      "stocked": false
+      "number": "5",
+      "stocked": true
+    },
+    {
+      "id": 15,
+      "category": "Electronics",
+      "name": "Dell XPS 15",
+      "price": "850.99",
+      "number": "5",
+      "stocked": true
     }
   ]
 }

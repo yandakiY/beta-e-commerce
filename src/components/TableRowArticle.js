@@ -69,13 +69,12 @@ const TableRowArticle = ({article}) => {
 
         const data = res.json();
 
-        console.log(data)
+        // console.log(data)
     }
 
     // Fonction delete a article in the Table and Database
     const deleteArticle = id => {
         dispatch(actionsLists.deleteList(id))
-        console.log("Delete article",id)
         // console.log(lists)
 
         deleteElementLists(id);
@@ -96,25 +95,12 @@ const TableRowArticle = ({article}) => {
                 <td>{article.name}</td>
                 <td>${article.price}</td>
                 <td>{article.number}</td>
-                {/* <td>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="" id="dropdown-basic">
-                            Options
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleShow({article})}>Update of {article.id}</Dropdown.Item>
-                            <Dropdown.Item onClick={() => deleteArticle(article.id)}>Delete</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </td> */}
                 <td><Button onClick={() => handleShow({article})} variant='primary'>Update</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>Delete</Button></td>
-                {/* {article.id} */}
             </tr>
             
             <>
                 {/* Modal Components */}
-                <UpdateArticle show={show} handleClose={handleClose}/> 
+                <UpdateArticle show={show} article={article} handleClose={handleClose}/> 
             </>
         </>
   )
