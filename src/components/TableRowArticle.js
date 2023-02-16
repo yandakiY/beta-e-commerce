@@ -96,7 +96,7 @@ const TableRowArticle = ({article}) => {
                 <td>{article.name}</td>
                 <td>${article.price}</td>
                 <td>{article.number}</td>
-                <td>
+                {/* <td>
                     <Dropdown>
                         <Dropdown.Toggle variant="" id="dropdown-basic">
                             Options
@@ -107,8 +107,8 @@ const TableRowArticle = ({article}) => {
                             <Dropdown.Item onClick={() => deleteArticle(article.id)}>Delete</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                </td>
-                {/* <td><Button onClick={handleShow} variant='primary'>{"Change Value"}</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>{"Delete"}</Button></td> */}
+                </td> */}
+                <td><Button onClick={() => handleShow({article})} variant='primary'>Update</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>Delete</Button></td>
                 {/* {article.id} */}
             </tr>
             

@@ -31,12 +31,11 @@
   "lists": [
     {
       "id": 1,
-      "indexArt": "foot",
       "category": "Sporting Goods",
-      "price": "49.99",
-      "stocked": true,
       "name": "Football",
-      "number": 14
+      "price": "49.99",
+      "number": "1",
+      "stocked": true
     },
     {
       "id": 3,
@@ -49,12 +48,11 @@
     },
     {
       "id": 4,
-      "indexArt": "ipod",
       "category": "Electronics",
-      "price": "99.99",
-      "stocked": false,
       "name": "iPod Touch",
-      "number": 0
+      "price": "99.99",
+      "number": "0",
+      "stocked": false
     },
     {
       "id": 5,
@@ -100,12 +98,12 @@
       "id": 13
     },
     {
+      "id": 14,
       "category": "Sporting Goods",
       "name": "NBA package",
-      "price": "88",
-      "number": "4",
-      "stocked": true,
-      "id": 14
+      "price": "15.99",
+      "number": "0",
+      "stocked": false
     }
   ]
 }

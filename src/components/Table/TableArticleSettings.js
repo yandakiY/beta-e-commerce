@@ -69,7 +69,7 @@ const TableArticleSettings = ({category , lists}) => {
                             {/* <th>Category</th> */}
                             <th>Price</th>
                             <th>Number of Article</th>
-                            {/* <th>Options</th> */}
+                            <th>Options</th>
                         </tr>
                     </thead>
                     

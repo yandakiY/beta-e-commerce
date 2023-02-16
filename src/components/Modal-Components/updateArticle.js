@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react'
 import { Button, Form, Modal } from 'react-bootstrap';
 import {useForm} from 'react-hook-form'
@@ -13,9 +14,11 @@ const UpdateArticle = ({show , handleClose}) => {
     // console.log(valueArticleToUpdate)
     const {register , handleSubmit , watch , setValue , reset} = useForm();
 
-    const sendSubmit = (value) =>{
+    const sendSubmit = async (value) =>{
 
         console.log(value)
+
+        let data = await axios.put(`http://localhost:5000/lists/${value.id}` , {...value , stocked: value.number > 0 ? true : false})
         handleClose()
         window.location.reload()
     }
