@@ -25,3 +25,19 @@
         </Button>
     </Modal.Footer>
 </Modal>
+
+
+<Form>
+    <Form.Group>
+        {/* Label - Control/Select - Select ? option --  Or Text */}
+        <Form.Label>Category</Form.Label>
+        <Form.Select
+        //  {...register('category')}
+        >
+            {category.map(e => e.name).map((e , i) => <option key={i} value={e}>{e}</option>)}
+            {/* <option>{"Test 1"}</option>
+            <option>{"Test 2"}</option>
+            <option>{"Test 3"}</option> */}
+        </Form.Select>
+    </Form.Group>
+</Form>

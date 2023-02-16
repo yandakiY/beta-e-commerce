@@ -28,7 +28,8 @@ const AddArticles = () => {
 
     }, []);
     
-    const {handleSubmit , register , formState:{errors}} = useForm();
+    const {handleSubmit , register , formState:{errors}} = useForm({
+    });
 
     // Submit Articles in Json Server
     const onSubmitArticles = async (value) =>{

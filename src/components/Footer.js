@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
     <footer style={{display:'flex', justifyContent:'center'}}>
-        <a href='/about'>About</a>
+        <Link to='/about'>About</Link>
         {" --- "}
-        <a href='/settings'>Settings</a>
+        <Link to='/settings'>Settings</Link>
     </footer>
   )
 }

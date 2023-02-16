@@ -7,6 +7,7 @@ import {useSelector , useDispatch} from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
+import { Link } from 'react-router-dom'
 
 const Setting = () => {
 
@@ -72,7 +73,6 @@ const Setting = () => {
             <div style={{display:'flex' , justifyContent:'space-evenly'}}>
                 <Button variant={viewAddCategories === false ? 'info' : 'danger'} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</Button>
                 <Button variant={viewAddArticles === false ? 'info' : 'danger'} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</Button>
-                
             </div>
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
@@ -85,7 +85,7 @@ const Setting = () => {
 
             {/* List of Articles For modification */}
             <TableArticleSettings lists={lists} category={category} />
-            <a href={'/'}>Return to home page</a>
+            <Link to={'/'}>Return to home page</Link>
         </div>
     </>
   )

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionsLists } from '../store/lists-slice';
@@ -11,6 +11,19 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const TableRowArticle = ({article}) => {
+
+    // Test
+
+    // Test resolution Modal props
+    // Mise en place d'un state
+    // ???????
+    // const [infoForm , setInfoForm] = React.useState({id:contact.id , name:contact.name , prename:contact.prename ,number:contact.number , fav:contact.fav})
+
+    const [infoForm , setInfoForm] = useState(
+        {id:article.id , name:article.name , category:article.category , price:article.price , number:article.number , stocked:article.stocked}
+    );
+
+
 
     // console.log(article) // Test What article this is ?
     const dispatch = useDispatch();
@@ -32,9 +45,10 @@ const TableRowArticle = ({article}) => {
     // }
 
     // Put Modal in the screen
-    const handleShow = () =>{
-        dispatch(actionsModal.showModal())
-        console.log("Article selected",article)
+    const handleShow = (valueArticle) =>{
+        dispatch(actionsModal.showModal(valueArticle))
+        // console.log("Article selected",article)
+        // setInfoForm(article)
     }
 
     // Close Modal
@@ -76,28 +90,33 @@ const TableRowArticle = ({article}) => {
     //     getCategoryFromServer();
     // }, []);
   return (
-        <tr style={{color: article.stocked === false && 'red' , fontWeight: article.stocked === false && 'bold'}}>
-            <td>{article.id}</td>
-            <td>{article.name}</td>
-            <td>${article.price}</td>
-            <td>{article.number}</td>
-            <td>
-                <Dropdown>
-                    <Dropdown.Toggle variant="" id="dropdown-basic">
-                        <BsThreeDotsVertical />
-                    </Dropdown.Toggle>
+        <>
+            <tr style={{color: article.stocked === false && 'red' , fontWeight: article.stocked === false && 'bold'}}>
+                <td>{article.id}</td>
+                <td>{article.name}</td>
+                <td>${article.price}</td>
+                <td>{article.number}</td>
+                <td>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="" id="dropdown-basic">
+                            Options
+                        </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => handleShow()}>Update of {article.id}</Dropdown.Item>
-                        <Dropdown.Item onClick={() => deleteArticle(article.id)}>Delete</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </td>
-            {/* <td><Button onClick={handleShow} variant='primary'>{"Change Value"}</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>{"Delete"}</Button></td> */}
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => handleShow({article})}>Update of {article.id}</Dropdown.Item>
+                            <Dropdown.Item onClick={() => deleteArticle(article.id)}>Delete</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </td>
+                {/* <td><Button onClick={handleShow} variant='primary'>{"Change Value"}</Button> <Button variant='danger' onClick={() => deleteArticle(article.id)}>{"Delete"}</Button></td> */}
+                {/* {article.id} */}
+            </tr>
             
-            {/* Modal Components */}
-            <UpdateArticle show={show} handleClose={handleClose} article={article} />
-        </tr>
+            <>
+                {/* Modal Components */}
+                <UpdateArticle show={show} handleClose={handleClose}/> 
+            </>
+        </>
   )
 }
 
