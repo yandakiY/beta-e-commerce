@@ -8,6 +8,9 @@ import Button from 'react-bootstrap/Button'
 import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
 import { Link } from 'react-router-dom'
+import { Container, Nav, Navbar } from 'react-bootstrap'
+import { BsFillCartPlusFill , BsFillFilePersonFill, BsFillGearFill } from 'react-icons/bs'
+import { FiMenu } from "react-icons/fi";
 
 const Setting = () => {
 
@@ -67,13 +70,29 @@ const Setting = () => {
 
   return (
     <>
-        <div style={{textAlign:'center'}}>
-            <h1>Settings</h1>
+        <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
+          <Container>
+            <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
+              <h4>Settings <BsFillGearFill /></h4>
+            </Navbar.Brand>
 
-            <div style={{display:'flex' , justifyContent:'space-evenly'}}>
-                <Button variant={viewAddCategories === false ? 'info' : 'danger'} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</Button>
-                <Button variant={viewAddArticles === false ? 'info' : 'danger'} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</Button>
-            </div>
+            <Nav>
+              <Nav.Link onClick={() => setviewAddCategories(!viewAddCategories)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
+                {viewAddCategories === false ? <><h5>Add Categories </h5><FiMenu /></> : <><h5 className='text-danger'>Close Add Categories </h5></>}
+              </Nav.Link>
+              <Nav.Link onClick={() => setviewAddArticles(!viewAddArticles)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
+                {viewAddArticles === false ? <><h5>Add Articles </h5><BsFillCartPlusFill /></> : <><h5 className='text-danger'>Close Add Articles </h5></>}
+              </Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar>
+        <div style={{textAlign:'center'}}>
+            {/* <h1>Settings</h1> */}
+
+            {/* <div style={{display:'flex' , justifyContent:'space-evenly'}}> */}
+                {/* <Button variant={viewAddCategories === false ? 'info' : 'danger'} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</Button> */}
+                {/* <Button variant={viewAddArticles === false ? 'info' : 'danger'} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</Button> */}
+            {/* </div> */}
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
                 {/* Categories Formulaire */}
@@ -85,7 +104,7 @@ const Setting = () => {
 
             {/* List of Articles For modification */}
             <TableArticleSettings lists={lists} category={category} />
-            <Link to={'/'}>Return to home page</Link>
+            {/* Return to home page */}
         </div>
     </>
   )
