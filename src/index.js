@@ -14,6 +14,8 @@ import store from './store';
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
+// Font import
+
 
 // *****
 // const lists = useSelector(state => state.lists.lists)
@@ -41,11 +43,12 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <Provider store={store}>
-   <React.StrictMode>
-   
-      <RouterProvider router={router} />
+    <React.StrictMode>
     
-  </React.StrictMode></Provider>
+        <RouterProvider router={router} />
+      
+    </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

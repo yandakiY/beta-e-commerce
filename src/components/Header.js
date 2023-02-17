@@ -1,9 +1,10 @@
 import React from 'react'
-import { Container, Form, Navbar } from 'react-bootstrap';
+import { Container, Form, Nav, Navbar } from 'react-bootstrap';
 import {useForm} from "react-hook-form"
 import { useDispatch , useSelector } from 'react-redux';
 import { filterActions } from '../store/filter-slice';
-import { BsFillCartFill } from "react-icons/bs";
+import { BsFillCartFill , BsFillGearFill , BsFillFilePersonFill } from "react-icons/bs";
+import { Link } from 'react-router-dom';
 
 const Header = ({changeSearch , changeAvailable}) => {
 
@@ -28,6 +29,14 @@ const Header = ({changeSearch , changeAvailable}) => {
             {/* <div>
                 <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
             </div> */}
+            <Nav>
+              <Nav.Link>
+                <Link style={{color:'white'}} to='/settings'><h5>Settings <BsFillGearFill /></h5></Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link style={{color:'white'}} to='/about'><h5>About <BsFillFilePersonFill /></h5></Link>
+              </Nav.Link>
+            </Nav>
           </Container>
         </Navbar>
         <div style={{display:'flex' , justifyContent:'center'}}>

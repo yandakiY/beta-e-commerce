@@ -77,7 +77,7 @@ function App() {
       <div className="App">
           <Header changeSearch={setSearch} changeAvailable={setAvailable} />
           <ArticleList lists={lists} category={category} />
-          <Footer />
+          {/* <Footer /> */}
       </div>
   );
 }
