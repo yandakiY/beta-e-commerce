@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container, Form, Navbar } from 'react-bootstrap';
 import {useForm} from "react-hook-form"
 import { useDispatch , useSelector } from 'react-redux';
 import { filterActions } from '../store/filter-slice';
@@ -14,13 +15,21 @@ const Header = ({changeSearch , changeAvailable}) => {
     // console.log(watch('search'))
   return (
     <header>
-        <h1>Management Articles</h1>
-        <div>
-            <input {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
-            {/* <button>Search</button> */}
+        <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
+          <Container>
+            <Navbar.Brand href="#">Management Articles</Navbar.Brand>
+
+            <div>
+                <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
+            </div>
+            {/* <div>
+                <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
+            </div> */}
+          </Container>
+        </Navbar>
+        <div style={{display:'flex' , justifyContent:'center'}}>
+          Articles only in stock : <Form.Check type="checkbox" checked={available} onChange={e => changeAvailable(e.target.checked)}/>
         </div>
-        <span>View Articles Available</span>
-        <input type="checkbox" checked={available} onChange={e => changeAvailable(e.target.checked)}/>
     </header>
   )
 }
