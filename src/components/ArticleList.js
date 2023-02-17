@@ -1,6 +1,8 @@
 import React from 'react'
+import { Alert, Badge, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import '../style/ArticleList.css'
+
 
 const ArticleList = ({lists , category}) => {
 
@@ -13,16 +15,16 @@ const ArticleList = ({lists , category}) => {
     <div>
         
         {/* <h2>Articles Lists :</h2> */}
-        {search ? <h3>Recherche : {search}</h3> : ""}
+        {search ? <h5>Recherche : {search}</h5> : ""}
 
-        <div className='entete'>
+        {/* <div className='entete'>
             <span>
                 Name
             </span>
             <span>
                 Price
             </span>
-        </div>
+        </div> */}
 
         {/* {available ? "true" : "0" } */}
 
@@ -34,13 +36,33 @@ const ArticleList = ({lists , category}) => {
                 (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
-                        <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                        {lists.map((list , index) => list.category === cat && 
-                            <div className='listItem' style={{color: list.stocked === false && 'red', fontWeight: list.stocked === false && 'bold'}} key={index}>
-                                <span>{list.name}</span>
-                                <span>${list.price}</span>
-                            </div> 
-                        )} 
+                        {/* <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span> */}
+                        <Container style={{paddingTop:'10px'}} fluid>
+                            <Alert variant={'secondary'}>
+                                <h5 style={{fontFamily:'Montagu Slab , sans-serif',fontWeight:'bold'}} >{cat}</h5>
+                            </Alert>
+                        </Container>
+                        <Row xs={1} md={4} lg={4}> {/* Ligne */}
+                            {lists.map((list , index) => list.category === cat && 
+
+                                <Col> {/* Column */}
+                                    <Card>
+                                        <Card.Img variant="top" src="holder.js/100px160" />
+                                        <Card.Body>
+                                        <Card.Title className='flex-col'>
+                                            {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
+                                        </Card.Title>
+                                        <Card.Text>
+                                            
+                                        </Card.Text>
+                                        </Card.Body>
+                                        {/* <hr /> */}
+                                        <Card.Footer>
+                                            <h4><Badge>${list.price}</Badge></h4>
+                                        </Card.Footer>
+                                    </Card>
+                                </Col>)}
+                        </Row>
                     </div>
 
                 ))
@@ -49,18 +71,38 @@ const ArticleList = ({lists , category}) => {
                 (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
-                        <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
+                        
+                        <Container style={{paddingTop:'10px'}} fluid>
+                            <Alert variant={'secondary'}>
+                                <h5 style={{fontFamily:'Montagu Slab , sans-serif',fontWeight:'bold'}} >{cat}</h5>
+                            </Alert>
+                        </Container>
 
                         {/* Articles by category.category.map(e => e.name) */}
-                        {lists.map((list , index) => 
-                            
-                            (list.category === cat && list.name.match(search))     
-                                && 
-                            (<div className='listItem' style={{color:list.stocked === false && 'red', fontWeight:list.stocked === false && 'bold'}} key={index}>
-                                <span>{list.name}</span>
-                                <span>${list.price}</span>
-                            </div>)
-                        )}
+                        <Row xs={1} md={4} lg={4}>
+                            {lists.map((list , index) => 
+                                
+                                (list.category === cat && list.name.match(search))     
+                                    &&
+                                (<Col> {/* Column */}
+                                        <Card>
+                                            <Card.Img variant="top" src="holder.js/100px160" />
+                                            <Card.Body>
+                                            <Card.Title>
+                                                {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
+                                            </Card.Title>
+                                            <Card.Text>
+
+                                            </Card.Text>
+                                            </Card.Body>
+                                            {/* <hr /> */}
+                                            <Card.Footer>
+                                                <h4><Badge>${list.price}</Badge></h4>
+                                            </Card.Footer>
+                                        </Card>
+                                </Col>)
+                            )}
+                        </Row>
                     </div>
 
                 ))
@@ -73,13 +115,32 @@ const ArticleList = ({lists , category}) => {
                 (category.map(e => e.name).map((cat , index) => 
 
                     <div key={index} className='lists'>
-                        <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                        {lists.map((list , index) => (list.category === cat && list.stocked === true) && 
-                            <div className='listItem' style={{color:list.stocked === false && 'red', fontWeight:list.stocked === false && 'bold'}} key={index}>
-                                <span>{list.name}</span>
-                                <span>${list.price}</span>
-                            </div> 
-                        )} 
+                        <Container style={{paddingTop:'10px'}} fluid>
+                            <Alert variant={'secondary'}>
+                                <h5 style={{fontFamily:'Montagu Slab , sans-serif',fontWeight:'bold'}} >{cat}</h5>
+                            </Alert>
+                        </Container>
+
+                        <Row xs={1} md={4} lg={4}>
+                            {lists.map((list , index) => (list.category === cat && list.stocked === true) && (
+                                <Col> {/* Column */}
+                                    <Card>
+                                        <Card.Img variant="top" src="holder.js/100px160" />
+                                        <Card.Body>
+                                        <Card.Title>
+                                            {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
+                                        </Card.Title>
+                                        <Card.Text>
+                                        </Card.Text>
+                                        </Card.Body>
+                                        {/* <hr /> */}
+                                        <Card.Footer>
+                                            <h4><Badge>${list.price}</Badge></h4>
+                                        </Card.Footer>
+                                    </Card>
+                                </Col>)
+                            )}
+                        </Row>
                     </div>
 
                 ))
@@ -88,18 +149,36 @@ const ArticleList = ({lists , category}) => {
                  (category.map(e => e.name).map((cat , index) => 
 
                 <div key={index} className='lists'>
-                    <span style={{textDecoration:'underline' , fontFamily:'consolas'}}>{cat}</span>
-                    {lists.map((list , index) => 
-                        
-                        (list.category === cat && list.name.match(search) && list.stocked === true)     
-                            &&
-                        (<div className='listItem' style={{color:list.stocked === false && 'red', fontWeight:list.stocked === false && 'bold'}} key={index}>
-                            <span>{list.name}</span>
-                            <span>${list.price}</span>
-                        </div>)
-                    )}
+                    <Container style={{paddingTop:'10px'}} fluid>
+                            <Alert variant={'secondary'}>
+                                <h5 style={{fontFamily:'Montagu Slab , sans-serif',fontWeight:'bold'}} >{cat}</h5>
+                            </Alert>
+                    </Container>
 
-                    {/* {test > 0 && <div>Pas d'articles</div>} */}
+                    <Row xs={1} md={4} lg={4}>
+                        {lists.map((list , index) => 
+                            
+                            (list.category === cat && list.name.match(search) && list.stocked === true)     
+                                &&
+                            (<Col> {/* Column */}
+                                    <Card>
+                                        <Card.Img variant="top" src="holder.js/100px160" />
+                                        <Card.Body>
+                                        <Card.Title>
+                                            {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
+                                        </Card.Title>
+                                        <Card.Text>
+                                            
+                                        </Card.Text>
+                                        </Card.Body>
+                                        {/* <hr /> */}
+                                        <Card.Footer>
+                                            <h4><Badge>${list.price}</Badge></h4>
+                                        </Card.Footer>
+                                    </Card>
+                            </Col>)
+                        )}
+                    </Row>
                 </div>
 
                 ))
