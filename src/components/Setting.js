@@ -9,7 +9,7 @@ import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
 import { Link } from 'react-router-dom'
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { BsFillCartPlusFill , BsFillFilePersonFill, BsFillGearFill } from 'react-icons/bs'
+import { BsFillCartPlusFill ,BsBackspaceReverseFill , BsBookmarkPlusFill , BsFillFilePersonFill, BsFillGearFill } from 'react-icons/bs'
 import { FiMenu } from "react-icons/fi";
 
 const Setting = () => {
@@ -78,11 +78,17 @@ const Setting = () => {
 
             <Nav>
               <Nav.Link onClick={() => setviewAddCategories(!viewAddCategories)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
-                {viewAddCategories === false ? <><h5>Add Categories </h5><FiMenu /></> : <><h5 className='text-danger'>Close Add Categories </h5></>}
+                {viewAddCategories === false ? <><h5>Add Categories </h5><BsBookmarkPlusFill /></> : <><h5 className='text-danger'>Close Add Categories </h5></>}
               </Nav.Link>
               <Nav.Link onClick={() => setviewAddArticles(!viewAddArticles)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
                 {viewAddArticles === false ? <><h5>Add Articles </h5><BsFillCartPlusFill /></> : <><h5 className='text-danger'>Close Add Articles </h5></>}
               </Nav.Link>
+            </Nav>
+
+            <Nav>
+                <Nav.Link href='/' style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
+                    <h5 style={{color:'whitesmoke'}}>Return to Home <BsBackspaceReverseFill /></h5> 
+                </Nav.Link>
             </Nav>
           </Container>
         </Navbar>
