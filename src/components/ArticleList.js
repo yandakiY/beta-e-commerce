@@ -47,7 +47,7 @@ const ArticleList = ({lists , category}) => {
                             <Row xs={1} md={4} lg={4}> {/* Ligne */}
                                 {lists.map((list , index) => list.category === cat && 
 
-                                    <Col> {/* Column */}
+                                    <Col key={index}> {/* Column */}
                                         <Card>
                                             <Card.Img variant="top" src="holder.js/100px160" />
                                             <Card.Body>
@@ -88,7 +88,7 @@ const ArticleList = ({lists , category}) => {
                                     
                                     (list.category === cat && list.name.match(search))     
                                         &&
-                                    (<Col> {/* Column */}
+                                    (<Col key={index}> {/* Column */}
                                             <Card>
                                                 <Card.Img variant="top" src="holder.js/100px160" />
                                                 <Card.Body>
@@ -129,7 +129,7 @@ const ArticleList = ({lists , category}) => {
                         <Container fluid>
                             <Row xs={1} md={4} lg={4}>
                                 {lists.map((list , index) => (list.category === cat && list.stocked === true) && (
-                                    <Col> {/* Column */}
+                                    <Col key={index}> {/* Column */}
                                         <Card>
                                             <Card.Img variant="top" src="holder.js/100px160" />
                                             <Card.Body>
@@ -168,7 +168,7 @@ const ArticleList = ({lists , category}) => {
                                 
                                 (list.category === cat && list.name.match(search) && list.stocked === true)     
                                     &&
-                                (<Col> {/* Column */}
+                                (<Col key={index}> {/* Column */}
                                         <Card>
                                             <Card.Img variant="top" src="holder.js/100px160" />
                                             <Card.Body>

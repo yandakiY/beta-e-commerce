@@ -30,11 +30,11 @@ const Header = ({changeSearch , changeAvailable}) => {
                 <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
             </div> */}
             <Nav>
-              <Nav.Link>
-                <Link style={{color:'white'}} to='/settings'><h5>Settings <BsFillGearFill /></h5></Link>
+              <Nav.Link href='/settings' style={{color:'white'}}>
+                <h5>Settings <BsFillGearFill /></h5>
               </Nav.Link>
-              <Nav.Link>
-                <Link style={{color:'white'}} to='/about'><h5>About <BsFillFilePersonFill /></h5></Link>
+              <Nav.Link href='/about' style={{color:'white'}}>
+                <h5>About <BsFillFilePersonFill /></h5>
               </Nav.Link>
             </Nav>
           </Container>
