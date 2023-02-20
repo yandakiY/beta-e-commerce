@@ -57,13 +57,13 @@ const About = () => {
 
         {/* PArt -  */}
 
-        <Container style={{marginTop:'15px'}}>
+        <Container style={{marginTop:'15px' , marginBottom:'15px'}}>
         
           <Accordion defaultActiveKey={['0','1']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header style={{fontFamily:'Montserrat'}} as={'h2'}>Techs Stacks</Accordion.Header>
               <Accordion.Body style={{fontFamily:'Montserrat'}}>
-                <Row lg={3} xs={1} md={4}>
+                <Row lg={3} xs={1} md={3}>
                   {[
                     {
                       name:'React',
@@ -71,7 +71,7 @@ const About = () => {
                       description:"React is a free JavaScript library developed by Facebook since 2013. The main goal of this library is to facilitate the creation of single-page web applications, via the creation of components that depend on a state and generate an HTML page at each state change.",
                       img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png'},
                     {
-                      name:'React-Bootstrap' ,
+                      name:'React-Bootstrap',
                       link:'https://react-bootstrap.github.io/',
                       description:"React-Bootstrap replaces the Bootstrap JavaScript. Each component has been built from scratch as a true React component, without unneeded dependencies like jQueryAs one of the oldest React libraries, React-Bootstrap has evolved and grown alongside React, making it an excellent choice as your UI foundation.",
                       img:'https://miro.medium.com/max/1400/1*ZSIihImW6DeVOYwUL-ghfQ.png'},
@@ -81,7 +81,7 @@ const About = () => {
                       description:"Firebase is a set of hosting services for any type of application. It offers NoSQL and real-time hosting of databases, content, social authentication, and notifications, or services, such as a real-time communication server.",
                       img:'https://miro.medium.com/max/300/1*R4c8lHBHuH5qyqOtZb3h-w.png'}
                   ].map((e , idx) => 
-                  <Col>
+                  <Col key={idx}>
                     <Card style={{height:'570px'}}>
                       <Card.Img height={250} width={250} src={e.img} />
                       <Card.Body style={{fontFamily:'Montserrat' , textAlign:'justify'}}>
@@ -100,13 +100,35 @@ const About = () => {
             <Accordion.Item eventKey="1" style={{paddingTop:'5px'}}>
               <Accordion.Header style={{fontFamily:'Montserrat'}} as={'h3'}>Certifications</Accordion.Header>
               <Accordion.Body style={{fontFamily:'Montserrat'}}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
+              <Row lg={2} md={2} xs={1}>
+                {[
+                  {
+                    title:'Professional degree in Computer Science',
+                    year:'2018-2021',
+                    school:"Institut Universitaire Technologiques des Eudistes d'Afrique",
+                    competences:['Management of Project', 'Modelisation of Systems with UML' , 'Intro to Cloud Computing']
+                  },
+                  {
+                    title:'Algorithms & Data Strutucres in JavaScript',
+                    year:'2022',
+                    school:"freeCodeCamp Organization",
+                    competences:['Master of Javascript' , 'OOP in JavaScript' , 'Writing Data Strutucres in JavaScript']
+                  },
+                ].map((e , idx) => <Col>
+                  <Card style={{height:'250px'}}>
+                    <Card.Title as='h4' style={{marginLeft:'8px', marginTop:'5px' , textDecoration:'underline'}}>{e.title}</Card.Title>
+                    <Card.Body>
+                      <Card.Text as='h5' style={{fontStyle:'italic'}}>{e.school} ({e.year})</Card.Text>
+                      {e.competences.length > 0 && <Card.Text>
+                        <Card.Title as='h6'>Learning :</Card.Title>
+                        <Card.Text style={{fontWeight:'bold'}}>
+                          {e.competences.map((e , idx) => <ul key={idx}>-{e}</ul>)}
+                        </Card.Text>
+                      </Card.Text>}
+                    </Card.Body>
+                  </Card>
+                </Col>)}
+              </Row>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
