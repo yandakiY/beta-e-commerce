@@ -114,17 +114,18 @@ const About = () => {
                     school:"freeCodeCamp Organization",
                     competences:['Master of Javascript' , 'OOP in JavaScript' , 'Writing Data Strutucres in JavaScript']
                   },
-                ].map((e , idx) => <Col>
-                  <Card style={{height:'250px'}}>
+                ].map((e , idx) => <Col key={idx}>
+                  <Card style={{height:'230px'}}>
                     <Card.Title as='h4' style={{marginLeft:'8px', marginTop:'5px' , textDecoration:'underline'}}>{e.title}</Card.Title>
                     <Card.Body>
                       <Card.Text as='h5' style={{fontStyle:'italic'}}>{e.school} ({e.year})</Card.Text>
-                      {e.competences.length > 0 && <Card.Text>
-                        <Card.Title as='h6'>Learning :</Card.Title>
-                        <Card.Text style={{fontWeight:'bold'}}>
-                          {e.competences.map((e , idx) => <ul key={idx}>-{e}</ul>)}
-                        </Card.Text>
-                      </Card.Text>}
+                      {e.competences.length > 0 && 
+                        <div>
+                          <Card.Title>Learning :</Card.Title>
+                          <ul style={{fontWeight:'bold'}}>
+                              {e.competences.map((e , idx) => <li key={idx}>{e}</li>)}
+                          </ul>
+                        </div>}
                     </Card.Body>
                   </Card>
                 </Col>)}
