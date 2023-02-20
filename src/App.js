@@ -4,6 +4,7 @@ import './App.css';
 import ArticleList from './components/ArticleList';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import NotLists from './components/NotLists';
 import { actionsCategory } from './store/category-slice';
 import { filterActions } from './store/filter-slice';
 import { actionsLists } from './store/lists-slice';
@@ -14,10 +15,12 @@ function App() {
 
   // Get lists of Articles from server
   const getLists = async () =>{
-    const res = await fetch('http://localhost:5000/lists');
+    const res = await fetch('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json');
+    // const res = await fetch('http://localhost:5000/lists');
     const data = await res.json();
 
     // console.log(data)
+    console.log('Firebase',data)
     return data; 
   }
   
@@ -76,7 +79,7 @@ function App() {
   return (
       <div className="App">
           <Header changeSearch={setSearch} changeAvailable={setAvailable} />
-          <ArticleList lists={lists} category={category} />
+          {lists.length === 0 ? <NotLists /> : <ArticleList lists={lists} category={category} />}
           {/* <Footer /> */}
       </div>
   );
