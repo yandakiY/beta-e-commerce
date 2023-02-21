@@ -7,53 +7,80 @@ import Table from 'react-bootstrap/Table'
 import { Container, Row , Col } from 'react-bootstrap';
 import { actionsModal } from '../../store/modal-slice';
 import TableRowArticle from '../TableRowArticle';
+import axios from 'axios';
+import axiosLists from '../../api-axios/axiosLists';
 
 
 const TableArticleSettings = ({category , lists}) => {
 
-    // const dispatch = useDispatch();
-    // // Use redux for the access of state article and category
-    // const lists = useSelector(state  => state.lists.lists)
-    // const category = useSelector(state  => state.category.category)
+    const dispatch = useDispatch();
+    const [listsTest , setListsTest] = React.useState([]);
 
-    // //get element lists from server
-    // const getLists = async () =>{
-    //     const res = await fetch('http://localhost:5000/lists');
-    //     const data = await res.json();
-    
-    //     // console.log(data)
-    //     return data; 
-    // }
-    // const getCategory = async () =>{
-    //     const res = await fetch('http://localhost:5000/category');
-    //     const data = await res.json();
-    
-    //     // console.log(data)
-    //     return data; 
-    // }
+    // We need get lists directly from firebase - via getLists() ?????
+    const getLists = async () =>{
+        const res = await axiosLists.get();
+        const data = await res.data;
 
-    
+        // console.log("Lists",data)
+        return data;
+    }
 
-    // useEffect(() => {
-    //     const getListsFromServer = async () =>{
-    //         let listFormServer = await getLists();
+    useEffect(() => {
+        const loadingLists = async () =>{
+            let listsLoaded = await getLists();
+            
+            setListsTest(listsLoaded);
+        }
 
-    //         dispatch(actionsLists.setLists(listFormServer));
-    //     }
-    //     const getCategoryFromServer = async () =>{
-    //         let categoryFormServer = await getCategory();
+        loadingLists();
+    },[]);
 
-    //         dispatch(actionsCategory.setCategory(categoryFormServer));
-    //     }
+    const deleteElementLists = async (id) =>{
 
-    //     getListsFromServer();
-    //     getCategoryFromServer();
-    // }, []);
+        // Determine the id firebase of Object we want delete
+        // We have elements of Firebase in props lists
+        var indexFirebase;
+        // listsTest.forEach((e , i) =>{
+        //     if(e.id === id){
+        //         indexFirebase = i;
+        //     }else if(e === null){continue}
+        // })
 
-    
-    // console.log(lists)
+        // for(let i = 0 ; i < listsTest.length ; i++){
+        //     if(listsTest[i].id === id){
+        //         indexFirebase = i;
+        //     }else if(listsTest[i] === null){
+        //         continue
+        //     }
+        // }
 
-    // console.log("Lists like props", lists)
+        // console.log('index firebase' , indexFirebase)
+        // console.log(listsTest.map(e => e === null ? 'null' : e.id).map((e , i) => e == id && indexFirebase += i))
+
+        // Determine the id firebase of Object we want delete
+        // We have elements of Firebase in props lists
+        let listsIdInitial = listsTest.map(e => e === null ? 'null' : e.id)
+
+        // Determine the index of Firebase via index of Loop 'map'
+        listsIdInitial.map((e , i) => e === id ? indexFirebase = i : 0)
+
+
+
+        console.log('Index firebase',indexFirebase)
+
+        // console.log('Index from firebase', indexFirebase)
+
+        await axios.delete(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebase}.json`)
+            .then(e => console.log(e))
+            .catch(err => console.error(err))
+    }
+
+    // Fonction delete a article in the Table and Database
+    const deleteArticle = id => {
+        dispatch(actionsLists.deleteList(id))
+
+        deleteElementLists(id);
+    }
 
   return (
     <Container fluid>
@@ -80,7 +107,7 @@ const TableArticleSettings = ({category , lists}) => {
                                 {/* <td><Button variant='link'>Update</Button></td> */}
                             </tr>
                             {lists.map((article,i) => article.category === cat && 
-                                <TableRowArticle key={i} article={article} lists={lists}/>
+                                <TableRowArticle key={i} article={article} lists={lists} deleteArticle={deleteArticle}/>
                             )}
                         </tbody>
                     )}
