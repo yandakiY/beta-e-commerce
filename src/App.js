@@ -20,8 +20,8 @@ function App() {
     const res = await axiosLists.get();
     const data = await res.data;
 
-    
-    return data; 
+    console.log(data)
+    return data;
   }
   
   // Get category of articles from server
@@ -29,6 +29,7 @@ function App() {
       const res = await axiosCategory.get();
       const data = await res.data;
 
+      console.log(data)
       return data; 
   }
 

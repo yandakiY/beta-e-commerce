@@ -1,22 +1,17 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionsLists } from '../store/lists-slice';
 import { actionsModal } from '../store/modal-slice';
-import {useForm} from 'react-hook-form'
-import axios from 'axios';
-import { actionsCategory } from '../store/category-slice';
 import UpdateArticle from './Modal-Components/UpdateArticle';
-import { BsThreeDotsVertical } from "react-icons/bs";
-import Dropdown from 'react-bootstrap/Dropdown';
 
-const TableRowArticle = ({article , lists}) => {
+const TableRowArticle = ({article , lists }) => {
 
     // Test
     const [infoForm , setInfoForm] = useState(
         {id:article.id , name:article.name , category:article.category , price:article.price , number:article.number , stocked:article.stocked}
     );
-
 
     // console.log(article) // Test What article this is ?
     const dispatch = useDispatch();
@@ -34,9 +29,8 @@ const TableRowArticle = ({article , lists}) => {
         dispatch(actionsModal.closeModal())
     }
 
-    // const {register , handleSubmit} = useForm();
+    // const dispatch = useDispatch();
 
-    // delete element of lists from server
     const deleteElementLists = async (id) =>{
 
         // Determine the id firebase of Object we want delete
@@ -61,6 +55,8 @@ const TableRowArticle = ({article , lists}) => {
 
         deleteElementLists(id);
     }
+
+    
 
   return (
         <>

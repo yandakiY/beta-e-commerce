@@ -80,7 +80,7 @@ const TableArticleSettings = ({category , lists}) => {
                                 {/* <td><Button variant='link'>Update</Button></td> */}
                             </tr>
                             {lists.map((article,i) => article.category === cat && 
-                                <TableRowArticle key={i} article={article}/>
+                                <TableRowArticle key={i} article={article} lists={lists}/>
                             )}
                         </tbody>
                     )}

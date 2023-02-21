@@ -10,7 +10,6 @@ const UpdateArticle = ({show , handleClose}) => {
     let valueArticleToUpdate = useSelector(state => state.modal.valueModalUpdateArticle)
     
     const {register , handleSubmit , setValue , formState:{errors}} = useForm();
-    // console.log('Render', errors.hasOwnProperty())
 
     // console.log(article)
     const handleCloseModal = () =>{
@@ -21,7 +20,6 @@ const UpdateArticle = ({show , handleClose}) => {
 
 
     // Set the values in the Input
-    // setValue('id' , valueArticleToUpdate.id)
     React.useEffect(() => {
         setValue('id' , valueArticleToUpdate.id)
         setValue('name' , valueArticleToUpdate.name)
