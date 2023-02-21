@@ -20,7 +20,8 @@ function App() {
     const res = await axiosLists.get();
     const data = await res.data;
 
-    console.log(data)
+    dispatch(actionsLists.setLists(data))
+    // console.log("Lists",data)
     return data;
   }
   
@@ -29,7 +30,8 @@ function App() {
       const res = await axiosCategory.get();
       const data = await res.data;
 
-      console.log(data)
+      dispatch(actionsCategory.setCategory(data))
+      // console.log("Categories",data)
       return data; 
   }
 
@@ -57,21 +59,26 @@ function App() {
 
   useEffect(() => {
     let getListsFromServer = async () =>{
-      let listFormServer = await getLists()
+      // let listFormServer = 
+      await getLists()
       
       //Mise a jour du state
-      dispatch(actionsLists.setLists(listFormServer))
+      // dispatch(actionsLists.setLists(listFormServer))
+      // console.log('Lists', lists)
     } 
 
     let getCategoryFromServer = async () =>{
-      let categoryFormServer = await getCategory()
+      // let categoryFormServer = 
+      await getCategory()
 
       //Mise a jour du state
-      dispatch(actionsCategory.setCategory(categoryFormServer))
+      // dispatch(actionsCategory.setCategory(categoryFormServer))
+      // console.log('Category', category)
     } 
 
     getListsFromServer()
     getCategoryFromServer();
+    
   }, []);
 
   // console.log('Lists from server (useSelector) ', lists)
