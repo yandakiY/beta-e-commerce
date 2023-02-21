@@ -6,7 +6,7 @@ import { actionsLists } from '../store/lists-slice';
 import { actionsModal } from '../store/modal-slice';
 import UpdateArticle from './Modal-Components/UpdateArticle';
 
-const TableRowArticle = ({article , lists }) => {
+const TableRowArticle = ({article , lists , deleteArticle }) => {
 
     // Test
     const [infoForm , setInfoForm] = useState(
@@ -28,35 +28,6 @@ const TableRowArticle = ({article , lists }) => {
     const handleClose = () =>{
         dispatch(actionsModal.closeModal())
     }
-
-    // const dispatch = useDispatch();
-
-    const deleteElementLists = async (id) =>{
-
-        // Determine the id firebase of Object we want delete
-        // We have elements of Firebase in props lists
-        var indexFirebase;
-        lists.forEach((e , i) =>{
-            if(e.id === id){
-                indexFirebase = i;
-            }
-        })
-
-        // console.log('Index from firebase', indexFirebase)
-
-        await axios.delete(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebase}.json`)
-            .then(e => console.log(e))
-            .catch(err => console.error(err))
-    }
-
-    // Fonction delete a article in the Table and Database
-    const deleteArticle = id => {
-        dispatch(actionsLists.deleteList(id))
-
-        deleteElementLists(id);
-    }
-
-    
 
   return (
         <>

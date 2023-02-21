@@ -8,7 +8,7 @@ const listSlice = createSlice({
     initialState: {lists:[] , total:0} ,
     reducers:{
         setLists(state , action){
-            state.lists = action.payload
+            state.lists = action.payload.filter(e => e !== null)
             state.total = state.lists.length
         },
         deleteList(state , action){
