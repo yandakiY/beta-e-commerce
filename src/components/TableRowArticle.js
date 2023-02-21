@@ -10,19 +10,12 @@ import UpdateArticle from './Modal-Components/UpdateArticle';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Dropdown from 'react-bootstrap/Dropdown';
 
-const TableRowArticle = ({article}) => {
+const TableRowArticle = ({article , lists}) => {
 
     // Test
-
-    // Test resolution Modal props
-    // Mise en place d'un state
-    // ???????
-    // const [infoForm , setInfoForm] = React.useState({id:contact.id , name:contact.name , prename:contact.prename ,number:contact.number , fav:contact.fav})
-
     const [infoForm , setInfoForm] = useState(
         {id:article.id , name:article.name , category:article.category , price:article.price , number:article.number , stocked:article.stocked}
     );
-
 
 
     // console.log(article) // Test What article this is ?
@@ -31,24 +24,9 @@ const TableRowArticle = ({article}) => {
     // State show Modal
     let show = useSelector(state => state.modal.show)
 
-    // Get category state
-    // let category = useSelector(state => state.category.category)
-    // console.log("How is my category", category)
-
-    // Get all category from server
-
-    // const getCategory = async () => {
-    //     const res = await axios.get('http://localhost:5000/category');
-    //     const data = res.data
-
-    //     return data
-    // }
-
     // Put Modal in the screen
     const handleShow = (valueArticle) =>{
         dispatch(actionsModal.showModal(valueArticle))
-        // console.log("Article selected",article)
-        // setInfoForm(article)
     }
 
     // Close Modal
@@ -60,34 +38,30 @@ const TableRowArticle = ({article}) => {
 
     // delete element of lists from server
     const deleteElementLists = async (id) =>{
-        const res = await fetch(`http://localhost:5000/lists/${id}`,{
-            method:'DELETE',
-            headers:{
-                'Content-type':'application/json'
+
+        // Determine the id firebase of Object we want delete
+        // We have elements of Firebase in props lists
+        var indexFirebase;
+        lists.forEach((e , i) =>{
+            if(e.id === id){
+                indexFirebase = i;
             }
         })
 
-        const data = res.json();
+        // console.log('Index from firebase', indexFirebase)
 
-        // console.log(data)
+        await axios.delete(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebase}.json`)
+            .then(e => console.log(e))
+            .catch(err => console.error(err))
     }
 
     // Fonction delete a article in the Table and Database
     const deleteArticle = id => {
         dispatch(actionsLists.deleteList(id))
-        // console.log(lists)
 
         deleteElementLists(id);
     }
 
-    // useEffect(() => {
-    //     const getCategoryFromServer = async () =>{
-    //         const categories = await getCategory();
-    //         dispatch(actionsCategory.setCategory(categories))
-    //     }
-
-    //     getCategoryFromServer();
-    // }, []);
   return (
         <>
             <tr style={{color: article.stocked === false && 'red' , fontWeight: article.stocked === false && 'bold'}}>
