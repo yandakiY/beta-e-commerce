@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axiosCategory from './api-axios/axiosCategory';
+import axiosLists from './api-axios/axiosLists';
 import './App.css';
 import ArticleList from './components/ArticleList';
 import Footer from './components/Footer';
@@ -15,21 +17,18 @@ function App() {
 
   // Get lists of Articles from server
   const getLists = async () =>{
-    const res = await fetch('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json');
-    // const res = await fetch('http://localhost:5000/lists');
-    const data = await res.json();
+    const res = await axiosLists.get();
+    const data = await res.data;
 
-    // console.log(data)
-    console.log('Firebase',data)
+    
     return data; 
   }
   
   // Get category of articles from server
   const getCategory = async () =>{
-      const res = await fetch('http://localhost:5000/category');
-      const data = await res.json();
+      const res = await axiosCategory.get();
+      const data = await res.data;
 
-      // console.log(data) 
       return data; 
   }
 
@@ -79,7 +78,7 @@ function App() {
   return (
       <div className="App">
           <Header changeSearch={setSearch} changeAvailable={setAvailable} />
-          {lists.length === 0 ? <NotLists /> : <ArticleList lists={lists} category={category} />}
+          {lists.length === 0 || category.length === 0 ? <NotLists /> : <ArticleList lists={lists} category={category} />}
           {/* <Footer /> */}
       </div>
   );

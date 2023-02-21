@@ -1,32 +1,28 @@
+import axios from 'axios'
 import React from 'react'
 import { useForm } from "react-hook-form"
+import axiosCategory from '../../api-axios/axiosCategory'
 
-const AddCategories = () => {
+const AddCategories = ({addCategory}) => {
   
     const {handleSubmit , register , formState:{errors}} = useForm({})
 
     const onSubmitCategories = async (value) => {
 
-        const res = await fetch('http://localhost:5000/category',{
-            method:'POST',
-            headers:{
-                'Content-type':'application/json'
-            },
-            body: JSON.stringify(value)
-        })
+        // const res = await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/category.json', [...category , value])
 
-        const data = await res.json()
-        console.log(data)
+        // const data = await res.data
+        // console.log(data)
 
-        // Permet l'actualisation de la page
-        window.location.reload();
+        // // Permet l'actualisation de la page
+        // window.location.reload();
         
         // console.log(value)
     } 
 
     return (
 
-        <form onSubmit={handleSubmit(onSubmitCategories)} 
+        <form onSubmit={handleSubmit(addCategory)} 
             style={{display:'flex' , flexDirection:'column' , alignItems:'center', paddingBottom:'15px'}}
         >
                 <h3>Add Category</h3>

@@ -77,7 +77,7 @@ const TableArticleSettings = ({category , lists}) => {
                         <tbody key={index}>
                             <tr key={index}>
                                 <td style={{color:'white' , backgroundColor:'darkgray' , fontWeight:'bold'}} colSpan='4'>{cat}</td>
-                                <td><Button variant='link'>Update</Button></td>
+                                {/* <td><Button variant='link'>Update</Button></td> */}
                             </tr>
                             {lists.map((article,i) => article.category === cat && 
                                 <TableRowArticle key={i} article={article}/>

@@ -1,32 +1,37 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import {useForm} from "react-hook-form"
+import { useSelector } from 'react-redux';
+import axiosLists from '../../api-axios/axiosLists';
 
-const AddArticles = () => {
+const AddArticles = ({category , lists , addArticle}) => {
 
-    const [cat , setCat] = useState([])
+    const [cat , setCat] = useState(category)
     // Get all categories form Json Server
 
-    const getCategories = async () =>{
-        const res = await fetch('http://localhost:5000/category');
-        const data = res.json()
+    // const getCategories = async () =>{
+    //     const res = await fetch('https://beta-e-commerce-default-rtdb.firebaseio.com/category.json');
+    //     const data = res.json()
 
-        // console.log(data) // Test affichage
-        return data
-    }
+    //     // console.log(data) // Test affichage
+    //     return data
+    // }
+
+    // const category = useSelector(state => state.category.category);
 
 
     //Afficher les categories
-    useEffect(() => {
+    // useEffect(() => {
 
-        const getCategoriesFromServer = async () => {
-            let catFromServer = await getCategories();
-            setCat(catFromServer)
-            // console.log(catFromServer)
-        }
+    //     // const getCategoriesFromServer = async () => {
+    //     //     let catFromServer = await getCategories();
+    //         setCat(category)
+    //         // console.log(catFromServer)
+    //     // }
 
-        getCategoriesFromServer();
+    //     // getCategoriesFromServer();
 
-    }, []);
+    // }, []);
     
     const {handleSubmit , register , formState:{errors}} = useForm({
     });
@@ -36,16 +41,19 @@ const AddArticles = () => {
 
         const valueToAdd = {...value, stocked:value.number > 0 ? true : false}
         
-        const res = await fetch('http://localhost:5000/lists' , {
-            method:'POST',
-            headers:{
-                'Content-type':'application/json'
-            },
-            body:JSON.stringify(valueToAdd)
-        });
+        // const res = await fetch('http://localhost:5000/lists' , {
+        //     method:'POST',
+        //     headers:{
+        //         'Content-type':'application/json'
+        //     },
+        //     body:JSON.stringify(valueToAdd)
+        // });
 
-        const data = await res.json();
-        console.log(data)
+        await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , valueToAdd])
+        .then(e => console.log(e)).catch(err => console.error(err))
+
+        // const data = await res.data;
+        // console.log(data)
 
         // Permet l'actualisation de la page
         window.location.reload();
@@ -55,7 +63,7 @@ const AddArticles = () => {
   
     return (
         <form 
-            onSubmit={handleSubmit(onSubmitArticles)}
+            onSubmit={handleSubmit(addArticle)}
             style={{display:'flex' , flexDirection:'column' , alignItems:'center', paddingBottom:'15px'}}
         >
             <h3>Add Articles</h3>
