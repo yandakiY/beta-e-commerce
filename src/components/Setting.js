@@ -9,6 +9,10 @@ import { actionsCategory } from '../store/category-slice'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { BsBookmarkPlusFill, BsFillCartPlusFill , BsFillGearFill } from 'react-icons/bs'
 import { BiHome  , BiBlock } from "react-icons/bi";
+import NotLists from './NotLists'
+import axios from 'axios'
+import axiosLists from '../api-axios/axiosLists'
+import axiosCategory from '../api-axios/axiosCategory'
 
 const Setting = () => {
 
@@ -22,27 +26,41 @@ const Setting = () => {
     const lists = useSelector(state  => state.lists.lists)
     const category = useSelector(state  => state.category.category)
 
-    // console.log("Lists ", lists)
-    // console.log("Category ", category)
-
     // //get element lists from server
     const getLists = async () =>{
-        const res = await fetch('http://localhost:5000/lists');
-        const data = await res.json();
-    
-        // console.log(data)
-        return data; 
+        const res = await axiosLists.get();
+        return res.data
     }
 
     const getCategory = async () =>{
-        const res = await fetch('http://localhost:5000/category');
-        const data = await res.json();
-    
-        // console.log(data)
-        return data; 
+        const res = await axiosCategory.get();
+        return res.data
     }
 
-    
+    const addArticles = async (value) => {
+
+      const valueToAdd = {...value, stocked:value.number > 0 ? true : false}
+
+      await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , { ...valueToAdd , id: lists[lists.length - 1].id+1 }])
+        .then(e => console.log(e))
+        .catch(err => console.error(err))
+
+      dispatch(actionsLists.setLists([...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }]));
+      // On recupere le dernier element du state lists et on incremente son id pour le nouveau a ajouté
+      setviewAddArticles(false)
+    }
+
+    const addCategory = async value =>{
+
+      await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/category.json', [...category , {...value , id: category[category.length - 1].id+1}])
+        .then(e => console.log(e))
+        .catch(err => console.error(err))
+      
+      // Mise a jour du state
+      dispatch(actionsCategory.setCategory([...category , {...value , id: category[category.length - 1].id+1}]));
+      setviewAddCategories(false)
+      
+    }
 
     useEffect(() => {
         const getListsFromServer = async () =>{
@@ -59,9 +77,6 @@ const Setting = () => {
 
         getListsFromServer();
         getCategoryFromServer();
-
-        // console.log("Category",category)
-        // console.log("Lists of articles",lists)
     }, []);
 
     // console.log("Category", category)
@@ -91,24 +106,16 @@ const Setting = () => {
           </Container>
         </Navbar>
         <div style={{textAlign:'center'}}>
-            {/* <h1>Settings</h1> */}
-
-            {/* <div style={{display:'flex' , justifyContent:'space-evenly'}}> */}
-                {/* <Button variant={viewAddCategories === false ? 'info' : 'danger'} onClick={() => setviewAddCategories(!viewAddCategories)}>{viewAddCategories ? 'Close Add Categories' : 'Add Categories'}</Button> */}
-                {/* <Button variant={viewAddArticles === false ? 'info' : 'danger'} onClick={() => setviewAddArticles(!viewAddArticles)}>{viewAddArticles ? 'Close Add Articles' : 'Add new articles'}</Button> */}
-            {/* </div> */}
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
                 {/* Categories Formulaire */}
-                {viewAddCategories && <AddCategories />}
+                {viewAddCategories && <AddCategories addCategory={addCategory} />}
 
                 {/* Articles Formulaire */}
-                {viewAddArticles && <AddArticles />}
+                {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
             </div>
 
-            {/* List of Articles For modification */}
-            <TableArticleSettings lists={lists} category={category} />
-            {/* Return to home page */}
+            {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings lists={lists} category={category} />}
         </div>
     </>
   )
