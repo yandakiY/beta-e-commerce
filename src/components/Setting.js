@@ -13,6 +13,8 @@ import NotLists from './NotLists'
 import axios from 'axios'
 import axiosLists from '../api-axios/axiosLists'
 import axiosCategory from '../api-axios/axiosCategory'
+import { storage } from '../firebase/firebase'
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
 
 const Setting = () => {
 
@@ -38,14 +40,58 @@ const Setting = () => {
     }
 
     const addArticles = async (value) => {
+      // Send Image a Firebase
+      // Comment proceder ?? : Envoyer d'abord l'image vers le storage de Firebase (/images) et par la suite recuperer le lien de l'image et l'inserer
+      
+      // Phase 1 : Send image
 
-      const valueToAdd = {...value, stocked:value.number > 0 ? true : false}
+      // #1: Create a ref with our storage const export and folder/name-of-file
+      const refImg = ref(storage , `/images/${value.image[0].name}`)
+      
+      // #2:  Use uploadBytes or uploadBytesResumable for upload our files
+      const uploadTask = uploadBytesResumable(refImg , value.image[0]).then(e => console.log('Upload Ok',e))
 
-      await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , { ...valueToAdd , id: lists[lists.length - 1].id+1 }])
-        .then(e => console.log(e))
-        .catch(err => console.error(err))
+      // Phase 2 : Get the link
 
-      dispatch(actionsLists.setLists([...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }]));
+      // #1: Get the constant who serve the uploading , use .then like a Promise.
+      // #2 : Use method getDownloadURL with params our refs (refImg) using then on this method (getDownloadURL) and we are link of our image now in the db 
+      uploadTask.then(() => {
+        // Handle successful uploads on complete
+        // instance, get the download URL:
+        getDownloadURL(refImg).then((downloadUrl) => console.log('Link', downloadUrl))
+      }, 
+      (err) => {
+        console.log(err);
+      })
+      // uploadTask.on('state_changed',
+      //   (snapshot) => {
+
+      //     console.log(snapshot)
+      //   },
+      //   (err) => {
+      //     console.error(err)
+      //   },
+      //   () =>{
+      //     // Handle successful uploads on complete
+      //     // For instance, get the download URL:
+
+      //     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => console.log('Link', downloadUrl))
+      //   }
+      // )
+
+      
+
+      // console.log(uploadImg)
+      
+      const valueToAdd = {...value, image: value.image[0] ,stocked:value.number > 0 ? true : false}
+
+
+      console.log(valueToAdd)
+      // await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , { ...valueToAdd , id: lists[lists.length - 1].id+1 }])
+      //   .then(e => console.log(e))
+      //   .catch(err => console.error(err))
+
+      // dispatch(actionsLists.setLists([...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }]));
       // On recupere le dernier element du state lists et on incremente son id pour le nouveau a ajouté
       setviewAddArticles(false)
     }
