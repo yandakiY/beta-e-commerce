@@ -7,6 +7,7 @@ import ArticleList from './components/ArticleList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import NotLists from './components/NotLists';
+import { storage } from './firebase/firebase';
 import { actionsCategory } from './store/category-slice';
 import { filterActions } from './store/filter-slice';
 import { actionsLists } from './store/lists-slice';
@@ -14,6 +15,8 @@ import { actionsLists } from './store/lists-slice';
 
 
 function App() {
+
+  // console.log(storage)
 
   // Get lists of Articles from server
   const getLists = async () =>{
