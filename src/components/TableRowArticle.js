@@ -1,17 +1,15 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import React, {  useState } from 'react'
+import { Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { actionsLists } from '../store/lists-slice';
 import { actionsModal } from '../store/modal-slice';
 import UpdateArticle from './Modal-Components/UpdateArticle';
 
-const TableRowArticle = ({article , lists , deleteArticle }) => {
+const TableRowArticle = ({article , handleShow , handleClose , updateArticle , deleteArticle}) => {
 
     // Test
-    const [infoForm , setInfoForm] = useState(
-        {id:article.id , name:article.name , category:article.category , price:article.price , number:article.number , stocked:article.stocked}
-    );
+    // const [infoForm , setInfoForm] = useState(
+    //     {id:article.id , name:article.name , category:article.category , price:article.price , number:article.number , stocked:article.stocked}
+    // );
 
     // console.log(article) // Test What article this is ?
     const dispatch = useDispatch();
@@ -20,14 +18,14 @@ const TableRowArticle = ({article , lists , deleteArticle }) => {
     let show = useSelector(state => state.modal.show)
 
     // Put Modal in the screen
-    const handleShow = (valueArticle) =>{
-        dispatch(actionsModal.showModal(valueArticle))
-    }
+    // const handleShow = (valueArticle) =>{
+    //     dispatch(actionsModal.showModal(valueArticle))
+    // }
 
     // Close Modal
-    const handleClose = () =>{
-        dispatch(actionsModal.closeModal())
-    }
+    // const handleClose = () =>{
+    //     dispatch(actionsModal.closeModal())
+    // }
 
   return (
         <>
@@ -41,7 +39,7 @@ const TableRowArticle = ({article , lists , deleteArticle }) => {
             
             <>
                 {/* Modal Components */}
-                <UpdateArticle show={show} article={article} handleClose={handleClose}/> 
+                <UpdateArticle show={show} article={article} updateArticle={updateArticle} handleClose={handleClose}/> 
             </>
         </>
   )

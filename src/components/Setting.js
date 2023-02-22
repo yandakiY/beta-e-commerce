@@ -23,7 +23,7 @@ const Setting = () => {
     const dispatch = useDispatch();
 
     // Use redux for the access of state article and category
-    const lists = useSelector(state  => state.lists.lists)
+    let lists = useSelector(state  => state.lists.lists)
     const category = useSelector(state  => state.category.category)
 
     // //get element lists from server
@@ -60,6 +60,31 @@ const Setting = () => {
       dispatch(actionsCategory.setCategory([...category , {...value , id: category[category.length - 1].id+1}]));
       setviewAddCategories(false)
       
+    }
+
+    const sendSubmitUpdate = async (value) =>{
+
+        // console.log(value)
+        // Appel de la liste depuis Firebase
+        let listsFromFirebase = await getLists();
+        var indexFirebaseElement;
+
+        // Get a Array of id of lists Firebase
+        let idArray = listsFromFirebase.map(e => e === null ? null : e.id)
+        idArray.map((e , i) => e === value.id ? indexFirebaseElement = i : 0)
+
+
+        console.log("Index from firebase" , indexFirebaseElement)
+
+        dispatch(actionsLists.setLists(lists.map(e => e.id === value.id ? {...value , stocked: value.number > 0 ? true : false} : e)))
+
+        // update this function for so that use link Firebase and update the element selected
+        await axios.put(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebaseElement}.json` , {...value , stocked: value.number > 0 ? true : false})
+            .then(e => console.log(e))
+            .catch(err => console.error(err))
+        
+        // handleClose()
+        // window.location.reload()
     }
 
     useEffect(() => {
@@ -115,7 +140,7 @@ const Setting = () => {
                 {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
             </div>
 
-            {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings lists={lists} category={category} />}
+            {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
         </div>
     </>
   )

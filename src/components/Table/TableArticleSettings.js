@@ -11,10 +11,9 @@ import axios from 'axios';
 import axiosLists from '../../api-axios/axiosLists';
 
 
-const TableArticleSettings = ({category , lists}) => {
+const TableArticleSettings = ({category , lists , sendUpdate}) => {
 
     const dispatch = useDispatch();
-    const [listsTest , setListsTest] = React.useState([]);
 
     // We need get lists directly from firebase - via getLists() ?????
     const getLists = async () =>{
@@ -25,41 +24,14 @@ const TableArticleSettings = ({category , lists}) => {
         return data;
     }
 
-    useEffect(() => {
-        const loadingLists = async () =>{
-            let listsLoaded = await getLists();
-            
-            setListsTest(listsLoaded);
-        }
-
-        loadingLists();
-    },[]);
-
     const deleteElementLists = async (id) =>{
 
-        // Determine the id firebase of Object we want delete
-        // We have elements of Firebase in props lists
+        let listsFromServer = await getLists();
         var indexFirebase;
-        // listsTest.forEach((e , i) =>{
-        //     if(e.id === id){
-        //         indexFirebase = i;
-        //     }else if(e === null){continue}
-        // })
-
-        // for(let i = 0 ; i < listsTest.length ; i++){
-        //     if(listsTest[i].id === id){
-        //         indexFirebase = i;
-        //     }else if(listsTest[i] === null){
-        //         continue
-        //     }
-        // }
-
-        // console.log('index firebase' , indexFirebase)
-        // console.log(listsTest.map(e => e === null ? 'null' : e.id).map((e , i) => e == id && indexFirebase += i))
 
         // Determine the id firebase of Object we want delete
         // We have elements of Firebase in props lists
-        let listsIdInitial = listsTest.map(e => e === null ? 'null' : e.id)
+        let listsIdInitial = listsFromServer.map(e => e === null ? 'null' : e.id)
 
         // Determine the index of Firebase via index of Loop 'map'
         listsIdInitial.map((e , i) => e === id ? indexFirebase = i : 0)
@@ -80,6 +52,24 @@ const TableArticleSettings = ({category , lists}) => {
         dispatch(actionsLists.deleteList(id))
 
         deleteElementLists(id);
+    }
+
+    const handleClose = () =>{
+        dispatch(actionsModal.closeModal())
+    }
+
+    // Put Modal in the screen
+    const handleShow = (valueArticle) =>{
+        dispatch(actionsModal.showModal(valueArticle))
+    }
+
+    const updateArticle = async (value) =>{
+
+        // Function async which is the component Parent (Setting)
+        sendUpdate(value);
+        
+        handleClose()
+        // window.location.reload()
     }
 
   return (
@@ -107,7 +97,7 @@ const TableArticleSettings = ({category , lists}) => {
                                 {/* <td><Button variant='link'>Update</Button></td> */}
                             </tr>
                             {lists.map((article,i) => article.category === cat && 
-                                <TableRowArticle key={i} article={article} lists={lists} deleteArticle={deleteArticle}/>
+                                <TableRowArticle key={i} article={article} updateArticle={updateArticle} handleShow={handleShow} handleClose={handleClose} deleteArticle={deleteArticle}/>
                             )}
                         </tbody>
                     )}
