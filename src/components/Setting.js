@@ -40,59 +40,44 @@ const Setting = () => {
     }
 
     const addArticles = async (value) => {
+
       // Send Image a Firebase
       // Comment proceder ?? : Envoyer d'abord l'image vers le storage de Firebase (/images) et par la suite recuperer le lien de l'image et l'inserer
       
       // Phase 1 : Send image
-
+      // ------
       // #1: Create a ref with our storage const export and folder/name-of-file
-      const refImg = ref(storage , `/images/${value.image[0].name}`)
+      // #1-a : How attribute Name of images : IMG+nameImage+Date.getTime()
+      let valueId = new Date().getTime();
+      const refImg = ref(storage , `/images/IMG-${value.image[0].name}-${valueId}`)
       
       // #2:  Use uploadBytes or uploadBytesResumable for upload our files
-      const uploadTask = uploadBytesResumable(refImg , value.image[0]).then(e => console.log('Upload Ok',e))
+      const uploadTask = uploadBytesResumable(refImg , value.image[0])
 
       // Phase 2 : Get the link
-
+      // -------
       // #1: Get the constant who serve the uploading , use .then like a Promise.
       // #2 : Use method getDownloadURL with params our refs (refImg) using then on this method (getDownloadURL) and we are link of our image now in the db 
       uploadTask.then(() => {
         // Handle successful uploads on complete
         // instance, get the download URL:
-        getDownloadURL(refImg).then((downloadUrl) => console.log('Link', downloadUrl))
-      }, 
+        getDownloadURL(refImg).then(async (downloadUrl) => {
+
+          const valueToAdd = {...value, image:downloadUrl ,stocked:value.number > 0 ? true : false}
+
+          // Mise a jour du state lists avec la nouvelle valeur ajoutée
+          dispatch(actionsLists.setLists([...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }]));
+          
+          // Envoie du nouveau state mise a jour a la place de l'ancien
+          await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }])
+            .then(e => console.log(e.status))
+            .catch(err => console.error(err))
+        })
+      },
       (err) => {
         console.log(err);
       })
-      // uploadTask.on('state_changed',
-      //   (snapshot) => {
 
-      //     console.log(snapshot)
-      //   },
-      //   (err) => {
-      //     console.error(err)
-      //   },
-      //   () =>{
-      //     // Handle successful uploads on complete
-      //     // For instance, get the download URL:
-
-      //     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => console.log('Link', downloadUrl))
-      //   }
-      // )
-
-      
-
-      // console.log(uploadImg)
-      
-      const valueToAdd = {...value, image: value.image[0] ,stocked:value.number > 0 ? true : false}
-
-
-      console.log(valueToAdd)
-      // await axios.put('https://beta-e-commerce-default-rtdb.firebaseio.com/lists.json', [...lists , { ...valueToAdd , id: lists[lists.length - 1].id+1 }])
-      //   .then(e => console.log(e))
-      //   .catch(err => console.error(err))
-
-      // dispatch(actionsLists.setLists([...lists , { ...valueToAdd , id: lists.length === 0 ? 1 : lists[lists.length - 1].id+1 }]));
-      // On recupere le dernier element du state lists et on incremente son id pour le nouveau a ajouté
       setviewAddArticles(false)
     }
 
@@ -109,28 +94,33 @@ const Setting = () => {
     }
 
     const sendSubmitUpdate = async (value) =>{
+      
+      const refImg = ref(storage , `/images/IMG-${value.image[0].name}-${new Date().getTime()}`)
 
-        // console.log(value)
-        // Appel de la liste depuis Firebase
-        let listsFromFirebase = await getLists();
-        var indexFirebaseElement;
+      uploadBytes(refImg , value.image[0]).then(
+        () =>{
+          getDownloadURL(refImg).then(async (downloadUrl) => {
+            // console.log(downloadUrl)
 
-        // Get a Array of id of lists Firebase
-        let idArray = listsFromFirebase.map(e => e === null ? null : e.id)
-        idArray.map((e , i) => e === value.id ? indexFirebaseElement = i : 0)
+            // Appel de la liste depuis Firebase
+            let listsFromFirebase = await getLists();
+            var indexFirebaseElement;
 
+            // Get a Array of id of lists Firebase
+            let idArray = listsFromFirebase.map(e => e === null ? null : e.id)
 
-        console.log("Index from firebase" , indexFirebaseElement)
+            // Get index Firebase
+            idArray.map((e , i) => e === value.id ? indexFirebaseElement = i : 0)
 
-        dispatch(actionsLists.setLists(lists.map(e => e.id === value.id ? {...value , stocked: value.number > 0 ? true : false} : e)))
+            // Mise a jour du state lists
+            dispatch(actionsLists.setLists(lists.map(e => e.id === value.id ? {...value , image:downloadUrl , stocked: value.number > 0 ? true : false} : e)))
 
-        // update this function for so that use link Firebase and update the element selected
-        await axios.put(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebaseElement}.json` , {...value , stocked: value.number > 0 ? true : false})
-            .then(e => console.log(e))
-            .catch(err => console.error(err))
-        
-        // handleClose()
-        // window.location.reload()
+            await axios.put(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebaseElement}.json` , {...value , image: downloadUrl , stocked: value.number > 0 ? true : false})
+                .then(e => console.log(e))
+                .catch(err => console.error(err))
+          })
+        }
+      )
     }
 
     useEffect(() => {

@@ -49,7 +49,7 @@ const ArticleList = ({lists , category}) => {
 
                                     <Col key={index}> {/* Column */}
                                         <Card>
-                                            <Card.Img variant="top" src="holder.js/100px160" />
+                                            <Card.Img variant="top" src={list.image} height={350} width={200} />
                                             <Card.Body>
                                             <Card.Title className='flex-col'>
                                                 {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
@@ -90,7 +90,7 @@ const ArticleList = ({lists , category}) => {
                                         &&
                                     (<Col key={index}> {/* Column */}
                                             <Card>
-                                                <Card.Img variant="top" src="holder.js/100px160" />
+                                                <Card.Img variant="top" src={list.image} height={350} width={200} />
                                                 <Card.Body>
                                                 <Card.Title>
                                                     {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
@@ -131,7 +131,7 @@ const ArticleList = ({lists , category}) => {
                                 {lists.map((list , index) => (list.category === cat && list.stocked === true) && (
                                     <Col key={index}> {/* Column */}
                                         <Card>
-                                            <Card.Img variant="top" src="holder.js/100px160" />
+                                            <Card.Img variant="top" src={list.image} height={350} width={200}/>
                                             <Card.Body>
                                             <Card.Title>
                                                 {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}
@@ -170,7 +170,7 @@ const ArticleList = ({lists , category}) => {
                                     &&
                                 (<Col key={index}> {/* Column */}
                                         <Card>
-                                            <Card.Img variant="top" src="holder.js/100px160" />
+                                            <Card.Img variant="top" src={list.image} height={350} width={200} />
                                             <Card.Body>
                                             <Card.Title>
                                                 {list.name} {' '} {list.stocked ? '' : <span style={{fontSize:'15px'}}><Badge bg={'danger'}>Not in stock</Badge></span>}

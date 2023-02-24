@@ -4,7 +4,8 @@ import {useForm} from "react-hook-form"
 import { useDispatch , useSelector } from 'react-redux';
 import { filterActions } from '../store/filter-slice';
 import { BsFillCartFill , BsFillGearFill , BsFillFilePersonFill } from "react-icons/bs";
-import { Link } from 'react-router-dom';
+import { AiOutlineGlobal } from "react-icons/ai";
+// import { Link } from 'react-router-dom';
 
 const Header = ({changeSearch , changeAvailable}) => {
 
@@ -17,19 +18,20 @@ const Header = ({changeSearch , changeAvailable}) => {
     // console.log(watch('search'))
   return (
     <header>
-        <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
+        <Navbar style={{fontFamily:'Montserrat'}} expand="lg" variant="dark" bg="dark" fixed="sticky">
           <Container>
-            <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
-              <h4>Managements Articles <BsFillCartFill /> </h4>
+            <Navbar.Brand style={{textDecoration:'underline'}} href="#">
+              <h4 >Managements Articles <BsFillCartFill /> </h4>
             </Navbar.Brand>
 
             <div>
                 <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
             </div>
-            {/* <div>
-                <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
-            </div> */}
+
             <Nav>
+              <Nav.Link href='/auth' style={{color:'white'}}>
+                <h5>Admin part <AiOutlineGlobal /></h5>
+              </Nav.Link>
               <Nav.Link href='/settings' style={{color:'white'}}>
                 <h5>Settings <BsFillGearFill /></h5>
               </Nav.Link>

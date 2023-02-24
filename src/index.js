@@ -14,6 +14,7 @@ import store from './store';
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import Authentification from './components/Authentification';
 // Font import
 
 
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
     path:'/settings',
     element:<Setting />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path:'/auth',
+    element:<Authentification />,
+    errorElement:<ErrorPage />
   }
 ])
 

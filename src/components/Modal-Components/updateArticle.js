@@ -10,7 +10,7 @@ const UpdateArticle = ({show , updateArticle , handleClose}) => {
     // Use redux for give state valueModalUpdateArticle
     let valueArticleToUpdate = useSelector(state => state.modal.valueModalUpdateArticle)
     
-    const {register , handleSubmit , setValue , formState:{errors}} = useForm();
+    const {register , handleSubmit , watch , getValues , setValue , formState:{errors}} = useForm();
 
 
     // Set the values in the Input
@@ -27,6 +27,11 @@ const UpdateArticle = ({show , updateArticle , handleClose}) => {
     
     const onError = (error) => console.log(error)
 
+
+    // const getImage = () => {
+    //     // console.log(watch('image'))
+    //     setValue('image' , 'Image set value')
+    // }
     
 
   return (
@@ -37,7 +42,7 @@ const UpdateArticle = ({show , updateArticle , handleClose}) => {
             <Modal.Title>Update Article {valueArticleToUpdate.id}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleSubmit(updateArticle , onError)}>
+                <Form onSubmit={handleSubmit(updateArticle , onError )}>
                     <Form.Group>
                         <Form.Label>Id Article</Form.Label>
                         <Form.Control type='text' disabled {...register('id')} />
@@ -54,12 +59,17 @@ const UpdateArticle = ({show , updateArticle , handleClose}) => {
                         <Form.Control type='text' {...register('name' , {required:'Name is required'})} />
                         {errors.name?.message && <Form.Text className='text-danger'>{errors.name?.message}</Form.Text>}
                     </Form.Group>
+                   <Form.Group>
+                        <Form.Label>Image Article</Form.Label>
+                        <Form.Control type='file' accept='image/*' {...register('image' , {required:'Image is required'})} />
+                        {errors.image?.message && <Form.Text className='text-danger'>{errors.image?.message}</Form.Text>}
+                    </Form.Group>
                     <Form.Group>
                         <Form.Label>Price Article ($)</Form.Label>
                         <Form.Control type='text' {...register('price' , {required:'Price is required' , pattern:{value:/^\d*\.?\d*$/g , message:'Should be a number or a decimal'}})} />
                         {errors.price?.message && <Form.Text className='text-danger'>{errors.price?.message}</Form.Text>}
                     </Form.Group>
-                     <Form.Group>
+                    <Form.Group>
                         <Form.Label>Number Article</Form.Label>
                         <Form.Control type='number' {...register('number' , {required:'Number article is required' , min:{value:0 ,message:'Min value is 0'}})} />
                         {errors.number?.message && <Form.Text className='text-danger'>{errors.number?.message}</Form.Text>}
