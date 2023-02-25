@@ -1,9 +1,40 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import React from 'react'
-import { Alert, Button, Container, Figure, FloatingLabel, Form, Nav, Navbar, Row, Tab, Tabs } from 'react-bootstrap'
-import { AiOutlineGlobal } from 'react-icons/ai'
+import { Alert, Button, Container, Figure, FloatingLabel, Form, Modal, Nav, Navbar, Row, Tab, Tabs } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
 import { BsFillCartFill } from 'react-icons/bs'
+import { auth } from '../firebase/firebase'
+import Login from './Auth-components/Login'
+import Register from './Auth-components/Register'
 
 const Authentification = () => {
+
+    const {register , handleSubmit} = useForm();
+    const [viewAlert , setViewAlert] = React.useState(false)
+
+    // Close Modal
+    const closeModal = () =>{
+        setViewAlert(false);
+        window.location.reload();
+    }
+
+    // For Registration Page
+    const addUser = async (value) =>{
+
+        createUserWithEmailAndPassword(auth , value.email , value.password)
+            .then((userCredential) =>{ 
+                console.log(userCredential)
+                setViewAlert(true)
+        })
+            .catch((err) => console.error(err))
+        console.log(value)
+        // setViewAlert(true)
+    }
+
+    // For Login Page
+    const connectUser = (value) =>{
+        console.log(value)
+    }
   return (
     <>
         {/* Nav Bar */}
@@ -25,85 +56,36 @@ const Authentification = () => {
             id="justify-tab-example"
             className="mb-3"
             justify
-            >
-        
-
+        >
             <Tab eventKey="login" title="Login">
-                
-                {/* Figure Et Titre */}
-                <Container className='mt-4 text-center'>
-                    <h1 style={{fontFamily:'Montserrat'}}>Login</h1>
-                    <Figure>
-                        <Figure.Image
-                            width={270}
-                            height={285}
-                            alt="171x180"
-                            src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                        />
-                    </Figure>
-                </Container>
-                
-                {/* Forms */}
-                <Container>
-                    <Row className='text-center justify-content-center'>
-                        <Form style={{width:'450px'}}>
-                            <FloatingLabel controlId="floatingInput" label="E-mail" className='mb-4'>
-                                <Form.Control type='email' placeholder='E-mail' />
-                            </FloatingLabel>
-
-                            <FloatingLabel controlId="floatingInput" label="Password">
-                                <Form.Control type='password' placeholder='Password' />
-                            </FloatingLabel>
-
-                            <Button variant='primary' size='lg' className='mt-4'>
-                                Se Connecter
-                            </Button>
-                        </Form>
-                    </Row>
-                </Container>
+                <Login connectUser={connectUser} />
             </Tab>
 
             <Tab eventKey="register" title="Register">
-                
-                {/* Figure Et Titre */}
-                <Container className='mt-4 text-center'>
-                    <h1 style={{fontFamily:'Montserrat'}}>Register</h1>
-                    <Figure>
-                        <Figure.Image
-                            width={270}
-                            height={285}
-                            alt="171x180"
-                            src="https://icon-library.com/images/registration-icon/registration-icon-11.jpg"
-                        />
-                    </Figure>
-                </Container>
-                
-                {/* Forms */}
-                <Container>
-                    <Row className='text-center justify-content-center'>
-                        <Form style={{width:'450px'}}>
-                            <FloatingLabel controlId="floatingInput" label="Name" className='mb-1'>
-                                <Form.Control type='text' placeholder='E-mail' />
-                            </FloatingLabel>
-                            <FloatingLabel controlId="floatingInput" label="Prename" className='mb-1'>
-                                <Form.Control type='text' placeholder='E-mail' />
-                            </FloatingLabel>
-                            <FloatingLabel controlId="floatingInput" label="E-mail" className='mb-1'>
-                                <Form.Control type='email' placeholder='E-mail' />
-                            </FloatingLabel>
-                            <FloatingLabel controlId="floatingInput" label="Password">
-                                <Form.Control type='password' placeholder='Password' />
-                            </FloatingLabel>
-
-                            <Button variant='primary' size='lg' className='mt-4'>
-                                S'inscrire
-                            </Button>
-                        </Form>
-                    </Row>
-                </Container>
+                <Register addUser={addUser} />
             </Tab>
         
         </Tabs>
+
+        <Modal show={viewAlert} onHide={closeModal}>
+            <Modal.Header closeButton>
+            {/* <Modal.Title>Modal heading</Modal.Title> */}
+            </Modal.Header>
+            <Modal.Body className='text-center'>
+                {/* https://www.clipartmax.com/png/middle/179-1795386_patient-success-success-icon-png.png */}
+                <Figure>
+                    <Figure.Image
+                        width={400}
+                        height={355}
+                        src="https://icons.veryicon.com/png/o/miscellaneous/new-version-of-star-selected-icon/success-26.png"
+                        // src="./img/success-26.png"
+                    />
+                    <Figure.Caption as='h2' style={{fontFamily:'Montserrat'}}>
+                        Operation make with success
+                    </Figure.Caption>
+                </Figure>
+            </Modal.Body>
+        </Modal>
     </>
   )
 }
