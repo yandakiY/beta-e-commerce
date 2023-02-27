@@ -13,14 +13,16 @@ import NotLists from './NotLists'
 import axios from 'axios'
 import axiosLists from '../api-axios/axiosLists'
 import axiosCategory from '../api-axios/axiosCategory'
-import { storage } from '../firebase/firebase'
+import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
 
 const Setting = () => {
 
-  const [viewAddCategories , setviewAddCategories] = useState(false)
-  const [viewAddArticles , setviewAddArticles] = useState(false)
+    const [viewAddCategories , setviewAddCategories] = useState(false)
+    const [viewAddArticles , setviewAddArticles] = useState(false)
 
+    const myAuth = auth.currentUser
+    console.log("My auth",myAuth)
 
     const dispatch = useDispatch();
 
@@ -29,7 +31,7 @@ const Setting = () => {
     const category = useSelector(state  => state.category.category)
 
     // //get element lists from server
-    const getLists = async () =>{
+    const getLists = async () => {
         const res = await axiosLists.get();
         return res.data
     }
@@ -163,9 +165,14 @@ const Setting = () => {
                 <Nav.Link href='/' style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
                     <h3 style={{color:'whitesmoke'}}><BiHome /></h3>
                 </Nav.Link>
+                {myAuth !== null && <Nav.Link href='/about' className='text-danger' style={{border:'solid white 2px'}}>
+                  <h5 style={{fontWeight:'bold'}}>Sign out</h5>
+                </Nav.Link>}
             </Nav>
           </Container>
         </Navbar>
+
+        
         <div style={{textAlign:'center'}}>
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>

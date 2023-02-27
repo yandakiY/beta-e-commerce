@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword , signOut, updateProfile } from 'firebase/auth'
 import React from 'react'
-import { Alert, Button, Container, Figure, FloatingLabel, Form, Modal, Nav, Navbar, Row, Tab, Tabs } from 'react-bootstrap'
+import { Alert, Button, Container, Figure, FloatingLabel, Form, Modal, Nav, Navbar, Row, Spinner, Tab, Tabs } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { BsFillCartFill } from 'react-icons/bs'
 import { auth } from '../firebase/firebase'
@@ -11,11 +11,12 @@ const Authentification = () => {
 
     const {register , handleSubmit} = useForm();
     const [viewAlert , setViewAlert] = React.useState(false)
+    const [viewSpinner , setViewSpinner] = React.useState(false)
 
     // Close Modal
     const closeModal = () =>{
         setViewAlert(false);
-        window.location.reload();
+        window.location.reload('/auth');
     }
 
     // For Registration Page
@@ -24,17 +25,26 @@ const Authentification = () => {
         createUserWithEmailAndPassword(auth , value.email , value.password)
             .then((userCredential) =>{ 
                 console.log(userCredential)
+                // console.log(auth.currentUser)
+
+                updateProfile(auth.currentUser , {
+                    displayName: value.prename+' '+value.name,
+                    photoURL:'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-default-avatar-profile-icon-vector-social-media-user-image-vector-illustration-227787227.jpg'
+                })
+
+                signOut(auth).then(() => console.log('Auth === null')).catch(err => console.error(err))
                 setViewAlert(true)
-        })
+            })
             .catch((err) => console.error(err))
         console.log(value)
-        // setViewAlert(true)
+
     }
 
     // For Login Page
     const connectUser = (value) =>{
         console.log(value)
     }
+
   return (
     <>
         {/* Nav Bar */}
@@ -63,6 +73,10 @@ const Authentification = () => {
 
             <Tab eventKey="register" title="Register">
                 <Register addUser={addUser} />
+                {viewSpinner && 
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                </Spinner>}
             </Tab>
         
         </Tabs>

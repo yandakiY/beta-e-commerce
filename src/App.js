@@ -7,7 +7,7 @@ import ArticleList from './components/ArticleList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import NotLists from './components/NotLists';
-import { storage } from './firebase/firebase';
+import { auth, storage } from './firebase/firebase';
 import { actionsCategory } from './store/category-slice';
 import { filterActions } from './store/filter-slice';
 import { actionsLists } from './store/lists-slice';
@@ -17,6 +17,9 @@ import { actionsLists } from './store/lists-slice';
 function App() {
 
   // console.log(storage)
+
+  const myAuth = auth.currentUser;
+  console.log('Auth' , myAuth)
 
   // Get lists of Articles from server
   const getLists = async () =>{
@@ -64,19 +67,11 @@ function App() {
     let getListsFromServer = async () =>{
       // let listFormServer = 
       await getLists()
-      
-      //Mise a jour du state
-      // dispatch(actionsLists.setLists(listFormServer))
-      // console.log('Lists', lists)
     } 
 
     let getCategoryFromServer = async () =>{
       // let categoryFormServer = 
       await getCategory()
-
-      //Mise a jour du state
-      // dispatch(actionsCategory.setCategory(categoryFormServer))
-      // console.log('Category', category)
     } 
 
     getListsFromServer()
@@ -88,7 +83,7 @@ function App() {
 
   return (
       <div className="App">
-          <Header changeSearch={setSearch} changeAvailable={setAvailable} />
+          <Header changeSearch={setSearch} myAuth={myAuth} changeAvailable={setAvailable} />
           {lists.length === 0 || category.length === 0 ? <NotLists /> : <ArticleList lists={lists} category={category} />}
           {/* <Footer /> */}
       </div>

@@ -5,15 +5,28 @@ import { useDispatch , useSelector } from 'react-redux';
 import { filterActions } from '../store/filter-slice';
 import { BsFillCartFill , BsFillGearFill , BsFillFilePersonFill } from "react-icons/bs";
 import { AiOutlineGlobal } from "react-icons/ai";
+import { auth } from '../firebase/firebase';
+import { signOut } from 'firebase/auth';
 // import { Link } from 'react-router-dom';
 
-const Header = ({changeSearch , changeAvailable}) => {
+const Header = ({changeSearch , myAuth , changeAvailable}) => {
 
     const {register} = useForm();
     const disaptch = useDispatch();
 
+    // const authCurrent = auth.currentUser;
+
     // const search = useSelector(state => state.filter.search);
     const available = useSelector(state => state.filter.available);
+
+    const deconnexion = async () => {
+      signOut(auth)
+        .then(() => {
+          console.log('Deconnexion...')
+          window.location.reload('/')
+        })
+        .catch((err) => console.error(err))
+    }
 
     // console.log(watch('search'))
   return (
@@ -38,6 +51,9 @@ const Header = ({changeSearch , changeAvailable}) => {
               <Nav.Link href='/about' style={{color:'white'}}>
                 <h5>About <BsFillFilePersonFill /></h5>
               </Nav.Link>
+              {myAuth !== null && <Nav.Link href='#' onClick={deconnexion} className='text-danger' style={{border:'solid white 2px'}}>
+                <h5 style={{fontWeight:'bold'}}>Sign out</h5>
+              </Nav.Link>}
             </Nav>
           </Container>
         </Navbar>

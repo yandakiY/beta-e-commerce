@@ -15,13 +15,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Authentification from './components/Authentification';
+import { auth } from './firebase/firebase';
 // Font import
 
+const myAuth = auth.currentUser;
 
-// *****
-// const lists = useSelector(state => state.lists.lists)
-// const category = useSelector(state => state.category.category)
-// *****
 const router = createBrowserRouter([
   {
     path:'/',
@@ -36,7 +34,7 @@ const router = createBrowserRouter([
   ,
   {
     path:'/settings',
-    element:<Setting />,
+    element:<Setting myAuth={myAuth} />,
     errorElement: <ErrorPage />,
   },
   {
