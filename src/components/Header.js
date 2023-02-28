@@ -14,6 +14,8 @@ const Header = ({changeSearch , myAuth , changeAvailable}) => {
     const {register} = useForm();
     const disaptch = useDispatch();
 
+    
+
     // const authCurrent = auth.currentUser;
 
     // const search = useSelector(state => state.filter.search);
@@ -45,12 +47,15 @@ const Header = ({changeSearch , myAuth , changeAvailable}) => {
               <Nav.Link href='/auth' style={{color:'white'}}>
                 <h5>Admin part <AiOutlineGlobal /></h5>
               </Nav.Link>
-              <Nav.Link href='/settings' style={{color:'white'}}>
+              {myAuth !== null && <Nav.Link href='/settings' style={{color:'white'}}>
                 <h5>Settings <BsFillGearFill /></h5>
-              </Nav.Link>
+              </Nav.Link>}
               <Nav.Link href='/about' style={{color:'white'}}>
                 <h5>About <BsFillFilePersonFill /></h5>
               </Nav.Link>
+              {myAuth !== null && <Nav.Link href='/#' style={{color:'white'}}>
+                <h5>{myAuth.display}</h5>
+              </Nav.Link>}
               {myAuth !== null && <Nav.Link href='#' onClick={deconnexion} className='text-danger' style={{border:'solid white 2px'}}>
                 <h5 style={{fontWeight:'bold'}}>Sign out</h5>
               </Nav.Link>}

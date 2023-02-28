@@ -2,11 +2,11 @@ import React from 'react'
 import { Button, Container, Figure, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form';
 
-const Login = ({connectUser}) => {
+const Login = ({connectUser , errorLogin}) => {
 
     const {register , handleSubmit , formState:{errors}} = useForm();
 
-    // const login = 
+    
 
   return (
     <>
@@ -37,6 +37,10 @@ const Login = ({connectUser}) => {
                         <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat'}} className='text-danger'>{errors.password?.message}</Form.Text>
                     </FloatingLabel>
 
+                    {errorLogin !== '' && <Form.Group>
+                            <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat', fontSize:'22px'}} className='text-danger'>{errorLogin}</Form.Text>
+                        </Form.Group>
+                    }
                     <Button type='submit' variant='primary' size='lg' className='mt-4'>
                         Login
                     </Button>

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword , signOut, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import React from 'react'
 import { Alert, Button, Container, Figure, FloatingLabel, Form, Modal, Nav, Navbar, Row, Spinner, Tab, Tabs } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
@@ -12,6 +12,9 @@ const Authentification = () => {
     const {register , handleSubmit} = useForm();
     const [viewAlert , setViewAlert] = React.useState(false)
     const [viewSpinner , setViewSpinner] = React.useState(false)
+
+    // Gestion erreur Login
+    const [errorLogin , setErrorLogin] = React.useState('')
 
     // Close Modal
     const closeModal = () =>{
@@ -42,7 +45,28 @@ const Authentification = () => {
 
     // For Login Page
     const connectUser = (value) =>{
-        console.log(value)
+        // console.log(value)
+
+        signInWithEmailAndPassword(auth, value.email, value.password)
+            .then((userCredential) => {
+                // Signed in 
+                console.log(userCredential);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                // const errorMessage = error.message;
+                // console.error("Error code",errorCode)
+                // console.error("Error message",errorMessage)
+
+                if(errorCode === 'auth/wrong-password'){
+                    setErrorLogin('Incorrect password')
+                }else if(errorCode === "auth/invalid-email"){
+                    setErrorLogin('Email invalid')
+                }else{
+                    setErrorLogin('Your information is incorrect')
+                }
+        });
     }
 
   return (
@@ -68,7 +92,7 @@ const Authentification = () => {
             justify
         >
             <Tab eventKey="login" title="Login">
-                <Login connectUser={connectUser} />
+                <Login errorLogin={errorLogin} connectUser={connectUser} />
             </Tab>
 
             <Tab eventKey="register" title="Register">
