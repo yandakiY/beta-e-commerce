@@ -15,6 +15,7 @@ import axiosLists from '../api-axios/axiosLists'
 import axiosCategory from '../api-axios/axiosCategory'
 import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
+import { redirect , Navigate } from 'react-router-dom'
 
 const Setting = () => {
 
@@ -23,6 +24,14 @@ const Setting = () => {
 
     const myAuth = auth.currentUser
     console.log("My auth",myAuth)
+    const [isAuth , setIsAuth] = React.useState(null);
+
+    // const loader = () => {
+    //   if(myAuth === null){
+    //     return redirect('/auth-denied')
+    //   }
+    //   // return null;
+    // }
 
     const dispatch = useDispatch();
 
@@ -125,6 +134,8 @@ const Setting = () => {
       )
     }
 
+    
+
     useEffect(() => {
         const getListsFromServer = async () =>{
             let listFormServer = await getLists();
@@ -140,12 +151,14 @@ const Setting = () => {
 
         getListsFromServer();
         getCategoryFromServer();
+        setIsAuth(myAuth)
+        
     }, []);
 
     // console.log("Category", category)
 
   return (
-    <>
+    isAuth ? <>
         <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
           <Container>
             <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
@@ -172,7 +185,6 @@ const Setting = () => {
           </Container>
         </Navbar>
 
-        
         <div style={{textAlign:'center'}}>
 
             <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
@@ -185,7 +197,7 @@ const Setting = () => {
 
             {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
         </div>
-    </>
+    </> : <Navigate to={'/auth-denied'} />
   )
 }
 

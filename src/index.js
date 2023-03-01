@@ -16,6 +16,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Authentification from './components/Authentification';
 import { auth } from './firebase/firebase';
+import AuthorizationDenied from './components/Authorization-denied';
 // Font import
 
 const myAuth = auth.currentUser;
@@ -34,12 +35,17 @@ const router = createBrowserRouter([
   ,
   {
     path:'/settings',
-    element:<Setting myAuth={myAuth} />,
+    element: <Setting/>,
     errorElement: <ErrorPage />,
   },
   {
     path:'/auth',
     element:<Authentification />,
+    errorElement:<ErrorPage />
+  },
+  {
+    path:'/auth-denied',
+    element:<AuthorizationDenied />,
     errorElement:<ErrorPage />
   }
 ])

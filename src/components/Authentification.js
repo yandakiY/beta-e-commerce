@@ -52,6 +52,7 @@ const Authentification = () => {
                 // Signed in 
                 console.log(userCredential);
                 // ...
+                // Redirection vers /settings
             })
             .catch((error) => {
                 const errorCode = error.code;
