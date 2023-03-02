@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Container, Figure, FloatingLabel, Form, Row } from 'react-bootstrap'
+import { Button, Container, Figure, FloatingLabel, Form, Row, Spinner } from 'react-bootstrap'
 import { useForm } from 'react-hook-form';
 
-const Login = ({connectUser , errorLogin}) => {
+const Login = ({connectUser , checkLogin , errorLogin}) => {
 
     const {register , handleSubmit , formState:{errors}} = useForm();
 
@@ -41,6 +41,10 @@ const Login = ({connectUser , errorLogin}) => {
                             <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat', fontSize:'22px'}} className='text-danger'>{errorLogin}</Form.Text>
                         </Form.Group>
                     }
+
+                    {checkLogin && <div><Spinner style={{textAlign:'center'}} animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                    </Spinner></div>}
                     <Button type='submit' variant='primary' size='lg' className='mt-4'>
                         Login
                     </Button>

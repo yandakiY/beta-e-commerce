@@ -32,7 +32,7 @@ const Setting = () => {
 
     const isAuthViaNavLink = auth.currentUser === null ? false : auth.currentUser
 
-    console.log('Authentification is true ? ', isAuthViaNavLink)
+    // console.log('Authentification is true ? ', isAuthViaNavLink)
     // console.log("My auth",myAuth)
 
     // I think is more intuitive to use userCredential send via state of navigate than auth.current who is more complicated with the loader of the page
@@ -184,7 +184,7 @@ const Setting = () => {
   return (
     isAuthViaNavLink ? 
       <>
-          <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
+          <Navbar expand="lg" variant="dark" bg="dark" fixed="top">
             <Container>
               <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
                 <h4>Settings <BsFillGearFill /></h4>
@@ -211,7 +211,7 @@ const Setting = () => {
                       menuVariant="dark"
                     >
                       <NavDropdown.Item>{isAuthViaNavLink.displayName} ({isAuthViaNavLink.email}) </NavDropdown.Item>
-                      <NavDropdown.Item onClick={deconnexion} className='text-danger'>
+                      <NavDropdown.Item onClick={deconnexion} style={{fontWeight:'bold'}} className='text-danger'>
                         Deconnexion
                       </NavDropdown.Item>
                       {/* <NavDropdown.Item>Something</NavDropdown.Item> */}
@@ -222,7 +222,7 @@ const Setting = () => {
             </Container>
           </Navbar>
 
-          <div style={{textAlign:'center'}}>
+          <div style={{textAlign:'center' , marginTop:'45px'}}>
 
               <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
                   {/* Categories Formulaire */}

@@ -13,23 +13,23 @@ const About = () => {
 
   return (
     <>
-          <Navbar bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand style={{fontFamily:'Montserrat , sans serif' , fontWeight:'bold'}} href="#">
-              <h4>About Me</h4>
-            </Navbar.Brand>
+          <Navbar bg="dark" variant="dark" fixed='top'>
+            <Container>
+              <Navbar.Brand style={{fontFamily:'Montserrat , sans serif' , fontWeight:'bold'}} href="#">
+                <h4>About Me</h4>
+              </Navbar.Brand>
 
-            <Nav>
-              <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
-                <h5>Go Home</h5>
-              </NavLink>
-            </Nav>
-          </Container>
+              <Nav>
+                <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
+                  <h5>Go Home</h5>
+                </NavLink>
+              </Nav>
+            </Container>
         </Navbar>
            
         {/* PArt - Presentation */}
 
-        <Container style={{marginTop:'45px'}}>
+        <Container style={{marginTop:'90px'}}>
           <Row style={{display:'flex' , flexDirection:'row', justifyContent:'center' , alignItems:'center'}}> {/* Ligne - Presentation */ }
             <Col lg={4} md={5} xs={12}> {/* Image Part */ }
             {/* Use Figure for Image */}

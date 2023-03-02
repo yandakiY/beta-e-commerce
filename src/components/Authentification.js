@@ -13,6 +13,8 @@ const Authentification = () => {
     const {register , handleSubmit} = useForm();
     const [viewAlert , setViewAlert] = React.useState(false)
     const [viewSpinner , setViewSpinner] = React.useState(false)
+    // const [viewSpinner , setViewSpinner] = React.useState(false)
+    const [checkLogin , setCheckLogin] = React.useState(false)
 
     // Gestion erreur Login
     const [errorLogin , setErrorLogin] = React.useState('')
@@ -69,11 +71,11 @@ const Authentification = () => {
     // For Login Page
     const connectUser = (value) =>{
         // console.log(value)
-
+        setCheckLogin(true)
         signInWithEmailAndPassword(auth, value.email, value.password)
             .then((userCredential) => {
                 // Signed in 
-                console.log(userCredential);
+                // console.log(userCredential);
                 // ...
                 // Redirection vers /settings
                 // navigate('/settings' , {state:{
@@ -89,7 +91,8 @@ const Authentification = () => {
             })
             .catch((error) => {
                 const errorCode = error.code;
-
+                
+                setCheckLogin(false) 
                 if(errorCode === 'auth/wrong-password'){
                     setErrorLogin('Incorrect password')
                 }else if(errorCode === "auth/invalid-email"){
@@ -127,7 +130,7 @@ const Authentification = () => {
         
             {viewLogin ?
                 <Tab eventKey="login" title="Login">
-                    <Login errorLogin={errorLogin} connectUser={connectUser} />
+                    <Login errorLogin={errorLogin} checkLogin={checkLogin} connectUser={connectUser} />
                 </Tab>
             : "" }
 

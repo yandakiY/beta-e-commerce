@@ -52,8 +52,8 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
 
     // console.log(watch('search'))
   return (
-    <header>
-        <Navbar style={{fontFamily:'Montserrat'}} expand="lg" variant="dark" bg="dark" fixed="sticky">
+    <header style={{marginTop:'65px'}}>
+        <Navbar style={{fontFamily:'Montserrat'}} expand="lg" variant="dark" bg="dark" fixed="top" >
           <Container>
             <Navbar.Brand style={{textDecoration:'underline'}} href="#">
               <h4>Managements Articles <BsFillCartFill /> </h4>
@@ -83,7 +83,7 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
                     menuVariant="dark"
                   >
                     <NavDropdown.Item>{authCurrent.displayName} ({authCurrent.email})</NavDropdown.Item>
-                    <NavDropdown.Item onClick={deconnexion} className='text-danger'>
+                    <NavDropdown.Item onClick={deconnexion} style={{fontWeight:'bold'}} className='text-danger'>
                       Deconnexion
                     </NavDropdown.Item>
                     {/* <NavDropdown.Item>Something</NavDropdown.Item> */}
