@@ -15,26 +15,31 @@ import axiosLists from '../api-axios/axiosLists'
 import axiosCategory from '../api-axios/axiosCategory'
 import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
-import { redirect , Navigate } from 'react-router-dom'
+import { redirect , useNavigate , Navigate, useLocation } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
 
 const Setting = () => {
+
+    const navigate = useNavigate();
 
     const [viewAddCategories , setviewAddCategories] = useState(false)
     const [viewAddArticles , setviewAddArticles] = useState(false)
 
-    const myAuth = auth.currentUser
-    console.log("My auth",myAuth)
-    const [isAuth , setIsAuth] = React.useState(null);
+    // const myAuth = auth.currentUser
+    // console.log("My auth",myAuth)
 
-    // const loader = () => {
-    //   if(myAuth === null){
-    //     return redirect('/auth-denied')
-    //   }
-    //   // return null;
-    // }
+    // I think is more intuitive to use userCredential send via state of navigate than auth.current who is more complicated with the loader of the page
+    // Get element state in params state (userInfo) | use useLocation ????
+    // -------------------- //
+    // const location = useLocation();
+    // console.log('User info',location.state)
+    // const userInfo = location.state || ''
+
+    // const [isAuth , setIsAuth] = React.useState(null)
+
+    
 
     const dispatch = useDispatch();
-
     // Use redux for the access of state article and category
     let lists = useSelector(state  => state.lists.lists)
     const category = useSelector(state  => state.category.category)
@@ -134,7 +139,19 @@ const Setting = () => {
       )
     }
 
-    
+    // const deconnexion = async () => {
+    //   signOut(auth)
+    //     .then(() => {
+    //       console.log('Deconnexion...')
+    //       // Use navigate and get all value null
+    //       navigate('/' , {state:{userInfo:null}})
+    //     })
+    //     .catch((err) => console.error(err))
+    // }
+
+    // const goHome = () =>{
+    //   navigate('/' , {state:userInfo})
+    // }
 
     useEffect(() => {
         const getListsFromServer = async () =>{
@@ -151,53 +168,51 @@ const Setting = () => {
 
         getListsFromServer();
         getCategoryFromServer();
-        setIsAuth(myAuth)
+        // setIsAuth(userInfo)
         
     }, []);
 
     // console.log("Category", category)
 
   return (
-    isAuth ? <>
-        <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
-          <Container>
-            <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
-              <h4>Settings <BsFillGearFill /></h4>
-            </Navbar.Brand>
+    // userInfo !== '' ? 
+      <>
+          <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
+            <Container>
+              <Navbar.Brand style={{fontFamily:'Consolas , sans-serif' , textDecoration:'underline'}} href="#">
+                <h4>Settings <BsFillGearFill /></h4>
+              </Navbar.Brand>
 
-            <Nav>
-              <Nav.Link onClick={() => setviewAddCategories(!viewAddCategories)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
-                {viewAddCategories === false ? <><h5>Add Categories </h5>{' '}<BsBookmarkPlusFill /></> : <><h5 className='text-danger'>Close Add Categories </h5>{' '}<BiBlock className='text-danger' /></>}
-              </Nav.Link>
-              <Nav.Link onClick={() => setviewAddArticles(!viewAddArticles)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
-                {viewAddArticles === false ? <><h5>Add Articles </h5>{' '}<BsFillCartPlusFill /></> : <><h5 className='text-danger'>Close Add Articles </h5>{' '}<BiBlock className='text-danger'/></>}
-              </Nav.Link>
-            </Nav>
-
-            <Nav>
-                <Nav.Link href='/' style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
-                    <h3 style={{color:'whitesmoke'}}><BiHome /></h3>
+              <Nav>
+                <Nav.Link onClick={() => setviewAddCategories(!viewAddCategories)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
+                  {viewAddCategories === false ? <><h5>Add Categories </h5>{' '}<BsBookmarkPlusFill /></> : <><h5 className='text-danger'>Close Add Categories </h5>{' '}<BiBlock className='text-danger' /></>}
                 </Nav.Link>
-                {myAuth !== null && <Nav.Link href='/about' className='text-danger' style={{border:'solid white 2px'}}>
-                  <h5 style={{fontWeight:'bold'}}>Sign out</h5>
-                </Nav.Link>}
-            </Nav>
-          </Container>
-        </Navbar>
+                <Nav.Link onClick={() => setviewAddArticles(!viewAddArticles)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
+                  {viewAddArticles === false ? <><h5>Add Articles </h5>{' '}<BsFillCartPlusFill /></> : <><h5 className='text-danger'>Close Add Articles </h5>{' '}<BiBlock className='text-danger'/></>}
+                </Nav.Link>
+              </Nav>
 
-        <div style={{textAlign:'center'}}>
+              <Nav>
+                  
+              </Nav>
+            </Container>
+          </Navbar>
 
-            <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
-                {/* Categories Formulaire */}
-                {viewAddCategories && <AddCategories addCategory={addCategory} />}
+          <div style={{textAlign:'center'}}>
 
-                {/* Articles Formulaire */}
-                {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
-            </div>
+              <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
+                  {/* Categories Formulaire */}
+                  {viewAddCategories && <AddCategories addCategory={addCategory} />}
 
-            {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
-        </div>
-    </> : <Navigate to={'/auth-denied'} />
+                  {/* Articles Formulaire */}
+                  {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
+              </div>
+
+              {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
+          </div>
+      </> 
+    //   : 
+    // <Navigate to={'/auth-denied'} />
   )
 }
 

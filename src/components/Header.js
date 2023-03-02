@@ -7,14 +7,14 @@ import { BsFillCartFill , BsFillGearFill , BsFillFilePersonFill } from "react-ic
 import { AiOutlineGlobal } from "react-icons/ai";
 import { auth } from '../firebase/firebase';
 import { signOut } from 'firebase/auth';
-// import { Link } from 'react-router-dom';
+import { useNavigate , Link, NavLink } from 'react-router-dom';
 
-const Header = ({changeSearch , myAuth , changeAvailable}) => {
+const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
 
     const {register} = useForm();
     const disaptch = useDispatch();
 
-    
+    console.log('Header' , userInfo)
 
     // const authCurrent = auth.currentUser;
 
@@ -25,10 +25,25 @@ const Header = ({changeSearch , myAuth , changeAvailable}) => {
       signOut(auth)
         .then(() => {
           console.log('Deconnexion...')
-          window.location.reload('/')
+          // window.location.reload('/')
+          navigate('/' , {state:{userInfo:null}})
         })
         .catch((err) => console.error(err))
     }
+    
+    const navigate = useNavigate();
+
+    // const goAuth = () =>{
+    //   navigate('/auth' , {state:{viewLogin: userInfo !== '' ? false : true}})
+    // }
+
+    // const goSettings = () => {
+    //   navigate('/settings' , {state:userInfo})
+    // }
+
+    // const goAbout = () =>{
+    //   navigate('/about' , {state:userInfo !== '' ? userInfo : ''})
+    // }
 
     // console.log(watch('search'))
   return (
@@ -36,7 +51,7 @@ const Header = ({changeSearch , myAuth , changeAvailable}) => {
         <Navbar style={{fontFamily:'Montserrat'}} expand="lg" variant="dark" bg="dark" fixed="sticky">
           <Container>
             <Navbar.Brand style={{textDecoration:'underline'}} href="#">
-              <h4 >Managements Articles <BsFillCartFill /> </h4>
+              <h4>Managements Articles <BsFillCartFill /> </h4>
             </Navbar.Brand>
 
             <div>
@@ -44,25 +59,16 @@ const Header = ({changeSearch , myAuth , changeAvailable}) => {
             </div>
 
             <Nav>
-              <Nav.Link href='/auth' style={{color:'white'}}>
-                <h5>Admin part <AiOutlineGlobal /></h5>
-              </Nav.Link>
-              {myAuth !== null && <Nav.Link href='/settings' style={{color:'white'}}>
-                <h5>Settings <BsFillGearFill /></h5>
-              </Nav.Link>}
-              <Nav.Link href='/about' style={{color:'white'}}>
-                <h5>About <BsFillFilePersonFill /></h5>
-              </Nav.Link>
-              {myAuth !== null && <Nav.Link href='/#' style={{color:'white'}}>
-                <h5>{myAuth.display}</h5>
-              </Nav.Link>}
-              {myAuth !== null && <Nav.Link href='#' onClick={deconnexion} className='text-danger' style={{border:'solid white 2px'}}>
-                <h5 style={{fontWeight:'bold'}}>Sign out</h5>
-              </Nav.Link>}
+              <NavLink style={{color:'whitesmoke' , textDecoration:'none', marginRight:'25px'}} to={'/auth'}>
+                <h5>Admin Part</h5>
+              </NavLink>
+              <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/about'} state={{test:false}} >
+                <h5>About Me</h5>
+              </NavLink>
             </Nav>
           </Container>
         </Navbar>
-        <div style={{display:'flex' , justifyContent:'center'}}>
+        <div style={{display:'flex' , justifyContent:'center' , marginRight:'25px'}}>
           <h5>Articles only in stock : </h5>
           <Form.Check type="checkbox" checked={available} onChange={e => changeAvailable(e.target.checked)}/>
         </div>

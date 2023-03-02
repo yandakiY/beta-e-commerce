@@ -6,6 +6,7 @@ import { BsFillCartFill } from 'react-icons/bs'
 import { auth } from '../firebase/firebase'
 import Login from './Auth-components/Login'
 import Register from './Auth-components/Register'
+import { useNavigate , useLocation, NavLink } from 'react-router-dom'
 
 const Authentification = () => {
 
@@ -15,11 +16,23 @@ const Authentification = () => {
 
     // Gestion erreur Login
     const [errorLogin , setErrorLogin] = React.useState('')
+    const [errorRegister , setErrorRegister] = React.useState('')
+
+    // Authorization 
+
+    // Navigate vers page Setting apres le Login
+    const navigate = useNavigate();
+
+    // get params via navigate
+    // const location = useLocation();
+    // let viewLogin = location.state
+
+    // console.log('View login' , viewLogin.viewLogin)
 
     // Close Modal
     const closeModal = () =>{
         setViewAlert(false);
-        window.location.reload('/auth');
+        // window.location.reload('/auth');
     }
 
     // For Registration Page
@@ -38,8 +51,16 @@ const Authentification = () => {
                 signOut(auth).then(() => console.log('Auth === null')).catch(err => console.error(err))
                 setViewAlert(true)
             })
-            .catch((err) => console.error(err))
-        console.log(value)
+            .catch((err) => {
+                const errorCode = err.code
+
+                if(errorCode === 'auth/network-request-failed'){
+                    setErrorRegister('Error network')
+                }else{
+                    setErrorRegister("Informations can't send")
+                }
+            })
+        // console.log(value)
 
     }
 
@@ -53,12 +74,18 @@ const Authentification = () => {
                 console.log(userCredential);
                 // ...
                 // Redirection vers /settings
+                // navigate('/settings' , {state:{
+                //     userInfo:{
+                //         displayName: userCredential.user.displayName,
+                //         email: userCredential.user.email,
+                //         photo: userCredential.user.photoURL
+                //     }}}
+                // )
+
+                // Utilisez un setteur pour dire ok identification OK 4 page
             })
             .catch((error) => {
                 const errorCode = error.code;
-                // const errorMessage = error.message;
-                // console.error("Error code",errorCode)
-                // console.error("Error message",errorMessage)
 
                 if(errorCode === 'auth/wrong-password'){
                     setErrorLogin('Incorrect password')
@@ -79,9 +106,10 @@ const Authentification = () => {
                     {/* <h4>Authentification <AiOutlineGlobal /></h4> */}
                     <h4 >Managements Articles <BsFillCartFill /> </h4>
                 </Navbar.Brand>
-
                 <Nav>
-                    <Nav.Link href='/'>Go to home page</Nav.Link>
+                    <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
+                        Go to home page
+                    </NavLink>
                 </Nav>
             </Container>
         </Navbar>
@@ -92,12 +120,15 @@ const Authentification = () => {
             className="mb-3"
             justify
         >
+        
+            {/* {viewLogin ?  */}
             <Tab eventKey="login" title="Login">
                 <Login errorLogin={errorLogin} connectUser={connectUser} />
-            </Tab>
+            </Tab> 
+            {/* : "" */} 
 
             <Tab eventKey="register" title="Register">
-                <Register addUser={addUser} />
+                <Register errorRegister={errorRegister} addUser={addUser} />
                 {viewSpinner && 
                     <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Container, Figure, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { useForm } from 'react-hook-form';
 
-const Register = ({addUser}) => {
+const Register = ({addUser , errorRegister}) => {
 
     const {register , handleSubmit , setValue , formState:{errors}} = useForm();
     const [viewRegister , setViewRegister] = React.useState(null)
@@ -15,7 +15,7 @@ const Register = ({addUser}) => {
     }
 
     const testPassword = value =>{
-        console.log(value)
+        // console.log(value)
         if(value.passwordCheck === '........Boa'){
             setViewRegister(true);
         }else{
@@ -66,12 +66,10 @@ const Register = ({addUser}) => {
                     </Figure>
                 </Container>
                 
-                
-                
                 {/* Forms */}
                 <Container>
                     <Row className='text-center justify-content-center'>
-                        <Form style={{width:'450px'}} onSubmit={handleSubmit(addUser)}>
+                        <Form style={{width:'450px'}} onSubmit={handleSubmit(addUser , wideField)}>
                             <FloatingLabel controlId="floatingInput" label="Name" className='mb-1'>
                                 <Form.Control type='text' placeholder='Name' {...register('name' , {required:'Name is required' , minLength:{value:3 , message:'Not considering less 3 charcets'}})} />
                                 <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat'}} className='text-danger'>{errors.name?.message}</Form.Text>
@@ -89,8 +87,13 @@ const Register = ({addUser}) => {
                                 <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat'}} className='text-danger'>{errors.password?.message}</Form.Text>
                             </FloatingLabel>
 
+
+                            {errorRegister !== '' && <Form.Group>
+                                    <Form.Text style={{fontWeight:'bold' , fontFamily:'Montserrat', fontSize:'22px'}} className='text-danger'>{errorRegister}</Form.Text>
+                            </Form.Group>}
+
                             <Button type='submit' variant='primary' size='lg' className='mt-4'>
-                                Register here !
+                                Register here
                             </Button>
                         </Form>
                     </Row>

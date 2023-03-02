@@ -2,8 +2,15 @@
 import React from 'react'
 import { Accordion, Button, Card, Col, Container, Figure, Nav, Navbar, Row } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
+import { NavLink, useLocation , useNavigate } from 'react-router-dom'
 
 const About = () => {
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  console.log(location.state)
+
   return (
     <>
           <Navbar bg="dark" variant="dark">
@@ -13,9 +20,9 @@ const About = () => {
             </Navbar.Brand>
 
             <Nav>
-              <Nav.Link href={'/'}>
+              <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
                 <h5>Go Home</h5>
-              </Nav.Link>
+              </NavLink>
             </Nav>
           </Container>
         </Navbar>

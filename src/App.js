@@ -11,15 +11,19 @@ import { auth, storage } from './firebase/firebase';
 import { actionsCategory } from './store/category-slice';
 import { filterActions } from './store/filter-slice';
 import { actionsLists } from './store/lists-slice';
-
+import { useLocation } from 'react-router-dom';
 
 
 function App() {
 
-  // console.log(storage)
+  const location = useLocation();
 
-  const myAuth = auth.currentUser;
-  console.log('Auth' , myAuth)
+  // const userInfo = location.state.userInfo || (location.state.userInfo === null && '')
+  // console.log(userInfo)
+  // // console.log(storage)
+
+  // const myAuth = auth.currentUser;
+  // console.log('Auth' , myAuth)
 
   // Get lists of Articles from server
   const getLists = async () =>{
@@ -83,7 +87,7 @@ function App() {
 
   return (
       <div className="App">
-          <Header changeSearch={setSearch} myAuth={myAuth} changeAvailable={setAvailable} />
+          <Header changeSearch={setSearch}  changeAvailable={setAvailable} />
           {lists.length === 0 || category.length === 0 ? <NotLists /> : <ArticleList lists={lists} category={category} />}
           {/* <Footer /> */}
       </div>

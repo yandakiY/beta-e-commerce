@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
-import { Col, Container, Figure, Row } from 'react-bootstrap'
+import { Button, Col, Container, Figure, Row } from 'react-bootstrap'
 
 const AuthorizationDenied = () => {
   return (
@@ -22,6 +22,10 @@ const AuthorizationDenied = () => {
                         />
                     </Figure>
                 </Col>
+            </Row>
+
+            <Row>
+                <Button className='btn-lg' variant='link' href='/'>Go Home</Button>
             </Row>
         </Container>
     </>
