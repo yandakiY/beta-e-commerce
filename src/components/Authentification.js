@@ -6,7 +6,7 @@ import { BsFillCartFill } from 'react-icons/bs'
 import { auth } from '../firebase/firebase'
 import Login from './Auth-components/Login'
 import Register from './Auth-components/Register'
-import { useNavigate , useLocation, NavLink } from 'react-router-dom'
+import { useNavigate , useLocation, NavLink, Navigate } from 'react-router-dom'
 
 const Authentification = () => {
 
@@ -18,7 +18,10 @@ const Authentification = () => {
     const [errorLogin , setErrorLogin] = React.useState('')
     const [errorRegister , setErrorRegister] = React.useState('')
 
-    // Authorization 
+    const [viewLogin , setViewLogin] = React.useState(auth.currentUser === null ? true : false)
+
+    // Authorization setState
+    const [sendSettings , setSendSettings] = React.useState(false);
 
     // Navigate vers page Setting apres le Login
     const navigate = useNavigate();
@@ -40,7 +43,7 @@ const Authentification = () => {
 
         createUserWithEmailAndPassword(auth , value.email , value.password)
             .then((userCredential) =>{ 
-                console.log(userCredential)
+                // console.log(userCredential)
                 // console.log(auth.currentUser)
 
                 updateProfile(auth.currentUser , {
@@ -48,7 +51,7 @@ const Authentification = () => {
                     photoURL:'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-default-avatar-profile-icon-vector-social-media-user-image-vector-illustration-227787227.jpg'
                 })
 
-                signOut(auth).then(() => console.log('Auth === null')).catch(err => console.error(err))
+                signOut(auth).catch(err => console.error(err))
                 setViewAlert(true)
             })
             .catch((err) => {
@@ -61,7 +64,6 @@ const Authentification = () => {
                 }
             })
         // console.log(value)
-
     }
 
     // For Login Page
@@ -83,6 +85,7 @@ const Authentification = () => {
                 // )
 
                 // Utilisez un setteur pour dire ok identification OK 4 page
+                setSendSettings(true);
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -98,13 +101,14 @@ const Authentification = () => {
     }
 
   return (
+    !sendSettings ?
     <>
         {/* Nav Bar */}
         <Navbar style={{fontFamily:'Montserrat'}} variant="dark" bg="dark" fixed="sticky">
             <Container>
                 <Navbar.Brand>
                     {/* <h4>Authentification <AiOutlineGlobal /></h4> */}
-                    <h4 >Managements Articles <BsFillCartFill /> </h4>
+                    <h4>Managements Articles <BsFillCartFill /></h4>
                 </Navbar.Brand>
                 <Nav>
                     <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
@@ -115,17 +119,17 @@ const Authentification = () => {
         </Navbar>
 
         <Tabs
-            defaultActiveKey={'login'}
+            defaultActiveKey={viewLogin ? 'login' : 'register'}
             id="justify-tab-example"
             className="mb-3"
             justify
         >
         
-            {/* {viewLogin ?  */}
-            <Tab eventKey="login" title="Login">
-                <Login errorLogin={errorLogin} connectUser={connectUser} />
-            </Tab> 
-            {/* : "" */} 
+            {viewLogin ?
+                <Tab eventKey="login" title="Login">
+                    <Login errorLogin={errorLogin} connectUser={connectUser} />
+                </Tab>
+            : "" }
 
             <Tab eventKey="register" title="Register">
                 <Register errorRegister={errorRegister} addUser={addUser} />
@@ -134,7 +138,6 @@ const Authentification = () => {
                         <span className="visually-hidden">Loading...</span>
                 </Spinner>}
             </Tab>
-        
         </Tabs>
 
         <Modal show={viewAlert} onHide={closeModal}>
@@ -156,7 +159,8 @@ const Authentification = () => {
                 </Figure>
             </Modal.Body>
         </Modal>
-    </>
+    </> : 
+    <Navigate to={'/settings'} />
   )
 }
 

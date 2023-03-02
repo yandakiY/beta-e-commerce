@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import { Button, Col, Container, Figure, Row } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 
 const AuthorizationDenied = () => {
   return (
@@ -25,7 +26,10 @@ const AuthorizationDenied = () => {
             </Row>
 
             <Row>
-                <Button className='btn-lg' variant='link' href='/'>Go Home</Button>
+                {/* <Button className='btn-lg' variant='link' href='/'>Go Home</Button> */}
+                <Col style={{fontSize:'25px', fontWeight:'bold'}} className='text-center' lg={12}>
+                    <NavLink style={{textDecoration:'none'}} to={'/'}>Go home</NavLink>
+                </Col>
             </Row>
         </Container>
     </>

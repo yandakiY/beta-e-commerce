@@ -6,7 +6,7 @@ import TableArticleSettings from './Table/TableArticleSettings'
 import {useSelector , useDispatch} from 'react-redux'
 import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { BsBookmarkPlusFill, BsFillCartPlusFill , BsFillGearFill } from 'react-icons/bs'
 import { BiHome  , BiBlock } from "react-icons/bi";
 import NotLists from './NotLists'
@@ -15,17 +15,24 @@ import axiosLists from '../api-axios/axiosLists'
 import axiosCategory from '../api-axios/axiosCategory'
 import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
-import { redirect , useNavigate , Navigate, useLocation } from 'react-router-dom'
+import { redirect , useNavigate , NavLink , Navigate, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 
 const Setting = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    
+    // let isAuthViaNavLink = location.state.isAuth === null ? false : location.state.isAuth
+    // console.log('Receive via link' , location.state)
 
     const [viewAddCategories , setviewAddCategories] = useState(false)
     const [viewAddArticles , setviewAddArticles] = useState(false)
 
-    // const myAuth = auth.currentUser
+    const isAuthViaNavLink = auth.currentUser === null ? false : auth.currentUser
+
+    console.log('Authentification is true ? ', isAuthViaNavLink)
     // console.log("My auth",myAuth)
 
     // I think is more intuitive to use userCredential send via state of navigate than auth.current who is more complicated with the loader of the page
@@ -35,7 +42,7 @@ const Setting = () => {
     // console.log('User info',location.state)
     // const userInfo = location.state || ''
 
-    // const [isAuth , setIsAuth] = React.useState(null)
+    // const [isAuth , setIsAuth] = React.useState(myAuth)
 
     
 
@@ -139,15 +146,15 @@ const Setting = () => {
       )
     }
 
-    // const deconnexion = async () => {
-    //   signOut(auth)
-    //     .then(() => {
-    //       console.log('Deconnexion...')
-    //       // Use navigate and get all value null
-    //       navigate('/' , {state:{userInfo:null}})
-    //     })
-    //     .catch((err) => console.error(err))
-    // }
+    const deconnexion = async () => {
+      signOut(auth)
+        .then(() => {
+          console.log('Sign out...')
+          // Use navigate and get all value null
+          navigate('/')
+        })
+        .catch((err) => console.error(err))
+    }
 
     // const goHome = () =>{
     //   navigate('/' , {state:userInfo})
@@ -175,7 +182,7 @@ const Setting = () => {
     // console.log("Category", category)
 
   return (
-    // userInfo !== '' ? 
+    isAuthViaNavLink ? 
       <>
           <Navbar expand="lg" variant="dark" bg="dark" fixed="sticky">
             <Container>
@@ -192,8 +199,25 @@ const Setting = () => {
                 </Nav.Link>
               </Nav>
 
-              <Nav>
-                  
+              <Nav style={{display:'flex' , alignItems:'center'}}>
+                <NavLink style={{color:'whitesmoke' , textDecoration:'none' , marginRight:'15px'}} to={'/'}>
+                  <h5>Go Home</h5>
+                </NavLink>
+                {isAuthViaNavLink && 
+                  <h5>
+                    <NavDropdown
+                      id="nav-dropdown-dark-example"
+                      title="Options"
+                      menuVariant="dark"
+                    >
+                      <NavDropdown.Item>{isAuthViaNavLink.displayName} ({isAuthViaNavLink.email}) </NavDropdown.Item>
+                      <NavDropdown.Item onClick={deconnexion} className='text-danger'>
+                        Deconnexion
+                      </NavDropdown.Item>
+                      {/* <NavDropdown.Item>Something</NavDropdown.Item> */}
+                    </NavDropdown>
+                  </h5>
+                }
               </Nav>
             </Container>
           </Navbar>
@@ -211,8 +235,8 @@ const Setting = () => {
               {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
           </div>
       </> 
-    //   : 
-    // <Navigate to={'/auth-denied'} />
+      : 
+    <Navigate to={'/auth-denied'} />
   )
 }
 

@@ -18,6 +18,8 @@ function App() {
 
   const location = useLocation();
 
+  // let isAuth = location.state.isAuth;
+
   // const userInfo = location.state.userInfo || (location.state.userInfo === null && '')
   // console.log(userInfo)
   // // console.log(storage)

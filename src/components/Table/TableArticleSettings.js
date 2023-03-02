@@ -37,7 +37,7 @@ const TableArticleSettings = ({category , lists , sendUpdate}) => {
         listsIdInitial.map((e , i) => e === id ? indexFirebase = i : 0)
 
 
-        console.log('Index firebase',indexFirebase)
+        // console.log('Index firebase',indexFirebase)
 
         await axios.delete(`https://beta-e-commerce-default-rtdb.firebaseio.com/lists/${indexFirebase}.json`)
             .then(e => console.log(e))

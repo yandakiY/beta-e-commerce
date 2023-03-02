@@ -9,7 +9,7 @@ const About = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location.state)
+  // console.log(location.state)
 
   return (
     <>
