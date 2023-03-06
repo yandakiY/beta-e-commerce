@@ -6,8 +6,8 @@ import TableArticleSettings from './Table/TableArticleSettings'
 import {useSelector , useDispatch} from 'react-redux'
 import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
-import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
-import { BsBookmarkPlusFill, BsFillCartPlusFill , BsFillGearFill } from 'react-icons/bs'
+import { Button, Card, Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap'
+import { BsBookmarkPlusFill, BsFillCartPlusFill , BsFillGearFill, BsGraphUp, BsListUl } from 'react-icons/bs'
 import { BiHome  , BiBlock } from "react-icons/bi";
 import NotLists from './NotLists'
 import axios from 'axios'
@@ -18,14 +18,37 @@ import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase
 import { redirect , useNavigate , NavLink , Navigate, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import SettingsTable from './Sattings-components/Settings-Table'
+import SettingsStats from './Sattings-components/Settings-Stats'
 
 const Setting = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [viewMenuSettings , setViewMenuSettings] = React.useState(true)
     const [viewStats , setViewStats] = React.useState(false)
     const [viewLists , setViewLists] = React.useState(false)
+
+
+    const clickViewLists = () =>{
+      setViewLists(true)
+      setViewMenuSettings(false)
+    }
+    
+    const clickViewStats = () =>{
+      setViewStats(true)
+      setViewMenuSettings(false)
+    }
+
+    const backSettingsViaLists = () =>{
+      setViewLists(false)
+      setViewMenuSettings(true)
+    }
+    
+    const backSettingsViaStats = () =>{
+      setViewStats(false)
+      setViewMenuSettings(true)
+    }
 
     // let isAuthViaNavLink = location.state.isAuth === null ? false : location.state.isAuth
     // console.log('Receive via link' , location.state)
@@ -209,32 +232,46 @@ const Setting = () => {
             </Container>
           </Navbar>
 
-          <Container className='text-center flex' style={{marginTop:'150px'}} fluid>
+          {viewMenuSettings && <Container className='text-center' style={{paddingTop:'255px'}}>
+            
+            <Row lg={2}>
+              <Col style={{textAlign:'center'}}>
+                <Card>
+                  <Card.Title style={{fontFamily:'montserrat'}} as='h2'>View Lists <BsListUl /> </Card.Title>
+                  <Card.Body>
+                    <Button variant='secondary' onClick={clickViewLists}>{"View"}</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
 
-            <Button size='lg' variant='primary' onClick={() => setViewLists(!viewLists)}>{"View Lists"}</Button> {' '}
-            <Button size='lg' variant='primary' onClick={() => setViewStats(!viewStats)}>View Data Visualization</Button>
+              <Col style={{textAlign:'center'}}>
+                <Card>
+                  <Card.Title style={{fontFamily:'montserrat'}} as='h2'>View Data Visualization <BsGraphUp /></Card.Title>
+                  <Card.Body>
+                    <Button variant='secondary' onClick={clickViewStats}>{"View"}</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
 
-          </Container>
+          </Container>}
 
-          <SettingsTable addArticles={addArticles} 
+          {viewLists && <SettingsTable 
+            backSettings={backSettingsViaLists}
+            addArticles={addArticles} 
             addCategory={addCategory}
             viewAddArticles={viewAddArticles}
             viewAddCategories={viewAddCategories}
             sendSubmitUpdate={sendSubmitUpdate}
             category={category}
             lists={lists}
-          />
+          />}
 
-          <div style={{textAlign:'center' , marginTop:'62px'}}>
-              <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
-                  {/* Categories Formulaire */}
-                  {viewAddCategories && <AddCategories addCategory={addCategory} />}
-
-                  {/* Articles Formulaire */}
-                  {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
-              </div>
-              {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
-          </div>
+          {viewStats && <SettingsStats
+            backSettings={backSettingsViaStats}
+            category={category}
+            lists={lists}
+          />}
 
       </> 
       : 

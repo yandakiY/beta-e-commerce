@@ -9,9 +9,10 @@ import { actionsModal } from '../../store/modal-slice';
 import TableRowArticle from '../TableRowArticle';
 import axios from 'axios';
 import axiosLists from '../../api-axios/axiosLists';
+import { BsArrowLeft } from 'react-icons/bs';
 
 
-const TableArticleSettings = ({category , lists , sendUpdate}) => {
+const TableArticleSettings = ({category , lists , sendUpdate , backSettings}) => {
 
     const dispatch = useDispatch();
 
@@ -71,6 +72,9 @@ const TableArticleSettings = ({category , lists , sendUpdate}) => {
 
   return (
     <Container style={{marginTop:'25px'}} fluid>
+        <div style={{display:'flex' , justifyContent:'center'}} >
+            <Button variant='outline-danger' style={{display:'flex' , alignItems:'center'}} onClick={backSettings}><BsArrowLeft /> Back to Settings</Button>
+        </div>
         <h2>Articles availables : </h2>
         <Row className='justify-content-md-center'>
             {/* <Col lg={2}>Part with lg - 3 </Col> */}

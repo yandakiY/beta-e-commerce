@@ -4,7 +4,7 @@ import AddCategories from '../Form/AddCategories'
 import NotLists from '../NotLists'
 import TableArticleSettings from '../Table/TableArticleSettings'
 
-const SettingsTable = ({lists , category , addCategory , addArticles , sendSubmitUpdate , viewAddArticles , viewAddCategories}) => {
+const SettingsTable = ({lists , category , addCategory , addArticles , sendSubmitUpdate , viewAddArticles , viewAddCategories , backSettings}) => {
   return (
     <div style={{textAlign:'center' , marginTop:'62px'}}>
 
@@ -16,7 +16,7 @@ const SettingsTable = ({lists , category , addCategory , addArticles , sendSubmi
             {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
         </div>
 
-        {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
+        {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings backSettings={backSettings} sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
     </div>
   )
 }
