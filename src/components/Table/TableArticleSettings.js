@@ -70,7 +70,7 @@ const TableArticleSettings = ({category , lists , sendUpdate}) => {
     }
 
   return (
-    <Container fluid>
+    <Container style={{marginTop:'25px'}} fluid>
         <h2>Articles availables : </h2>
         <Row className='justify-content-md-center'>
             {/* <Col lg={2}>Part with lg - 3 </Col> */}

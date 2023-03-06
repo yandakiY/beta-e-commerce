@@ -6,7 +6,7 @@ import TableArticleSettings from './Table/TableArticleSettings'
 import {useSelector , useDispatch} from 'react-redux'
 import { actionsLists } from '../store/lists-slice'
 import { actionsCategory } from '../store/category-slice'
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { BsBookmarkPlusFill, BsFillCartPlusFill , BsFillGearFill } from 'react-icons/bs'
 import { BiHome  , BiBlock } from "react-icons/bi";
 import NotLists from './NotLists'
@@ -17,13 +17,16 @@ import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
 import { redirect , useNavigate , NavLink , Navigate, useLocation } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
+import SettingsTable from './Sattings-components/Settings-Table'
 
 const Setting = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    
+    const [viewStats , setViewStats] = React.useState(false)
+    const [viewLists , setViewLists] = React.useState(false)
+
     // let isAuthViaNavLink = location.state.isAuth === null ? false : location.state.isAuth
     // console.log('Receive via link' , location.state)
 
@@ -32,19 +35,6 @@ const Setting = () => {
 
     const isAuthViaNavLink = auth.currentUser === null ? false : auth.currentUser
 
-    // console.log('Authentification is true ? ', isAuthViaNavLink)
-    // console.log("My auth",myAuth)
-
-    // I think is more intuitive to use userCredential send via state of navigate than auth.current who is more complicated with the loader of the page
-    // Get element state in params state (userInfo) | use useLocation ????
-    // -------------------- //
-    // const location = useLocation();
-    // console.log('User info',location.state)
-    // const userInfo = location.state || ''
-
-    // const [isAuth , setIsAuth] = React.useState(myAuth)
-
-    
 
     const dispatch = useDispatch();
     // Use redux for the access of state article and category
@@ -156,10 +146,6 @@ const Setting = () => {
         .catch((err) => console.error(err))
     }
 
-    // const goHome = () =>{
-    //   navigate('/' , {state:userInfo})
-    // }
-
     useEffect(() => {
         const getListsFromServer = async () =>{
             let listFormServer = await getLists();
@@ -179,7 +165,8 @@ const Setting = () => {
         
     }, []);
 
-    // console.log("Category", category)
+    console.log('View stats' , viewStats)
+    console.log('View lists' , viewLists)
 
   return (
     isAuthViaNavLink ? 
@@ -190,14 +177,14 @@ const Setting = () => {
                 <h4>Settings <BsFillGearFill /></h4>
               </Navbar.Brand>
 
-              <Nav>
+              {viewLists && <Nav>
                 <Nav.Link onClick={() => setviewAddCategories(!viewAddCategories)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
                   {viewAddCategories === false ? <><h5>Add Categories </h5>{' '}<BsBookmarkPlusFill /></> : <><h5 className='text-danger'>Close Add Categories </h5>{' '}<BiBlock className='text-danger' /></>}
                 </Nav.Link>
                 <Nav.Link onClick={() => setviewAddArticles(!viewAddArticles)} style={{display:'flex' , flexDirection:'row' , alignItems:'baseline'}}>
                   {viewAddArticles === false ? <><h5>Add Articles </h5>{' '}<BsFillCartPlusFill /></> : <><h5 className='text-danger'>Close Add Articles </h5>{' '}<BiBlock className='text-danger'/></>}
                 </Nav.Link>
-              </Nav>
+              </Nav>}
 
               <Nav style={{display:'flex' , alignItems:'center'}}>
                 <NavLink style={{color:'whitesmoke' , textDecoration:'none' , marginRight:'15px'}} to={'/'}>
@@ -222,8 +209,23 @@ const Setting = () => {
             </Container>
           </Navbar>
 
-          <div style={{textAlign:'center' , marginTop:'45px'}}>
+          <Container className='text-center flex' style={{marginTop:'150px'}} fluid>
 
+            <Button size='lg' variant='primary' onClick={() => setViewLists(!viewLists)}>{"View Lists"}</Button> {' '}
+            <Button size='lg' variant='primary' onClick={() => setViewStats(!viewStats)}>View Data Visualization</Button>
+
+          </Container>
+
+          <SettingsTable addArticles={addArticles} 
+            addCategory={addCategory}
+            viewAddArticles={viewAddArticles}
+            viewAddCategories={viewAddCategories}
+            sendSubmitUpdate={sendSubmitUpdate}
+            category={category}
+            lists={lists}
+          />
+
+          <div style={{textAlign:'center' , marginTop:'62px'}}>
               <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-evenly' , alignItems:'center'}}>
                   {/* Categories Formulaire */}
                   {viewAddCategories && <AddCategories addCategory={addCategory} />}
@@ -231,9 +233,9 @@ const Setting = () => {
                   {/* Articles Formulaire */}
                   {viewAddArticles && <AddArticles category={category} lists={lists} addArticle={addArticles} />}
               </div>
-
               {lists.length === 0 || category.length === 0 ? <NotLists /> : <TableArticleSettings sendUpdate={sendSubmitUpdate} lists={lists} category={category} />}
           </div>
+
       </> 
       : 
     <Navigate to={'/auth-denied'} />
