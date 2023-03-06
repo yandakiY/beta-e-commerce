@@ -21,7 +21,7 @@ const About = () => {
 
               <Nav>
                 <NavLink style={{color:'whitesmoke' , textDecoration:'none'}} to={'/'}>
-                  <h5>Go Home</h5>
+                  <h5>Go to Home</h5>
                 </NavLink>
               </Nav>
             </Container>
