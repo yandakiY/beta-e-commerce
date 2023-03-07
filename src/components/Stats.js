@@ -1,4 +1,6 @@
 import React from 'react'
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie } from 'recharts';
+import { Chart } from "react-google-charts";
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { BsArrowLeft } from 'react-icons/bs'
 
@@ -8,11 +10,11 @@ const Stats = ({backSettings , lists , category}) => {
   let test = lists.map(l => ({name:l.name , number: l.number , price: l.price , category:l.category , stocked: l.stocked , id:l.id}))
 
   function getArticleByCategory(){
-    
+
     var count = 0;
     var nameCat = ''
 
-    let valueToReturn = []
+    let valueToReturn = [["Category" , "Number article"]]
     for(let i = 0 ; i < testC.length ; i++){
 
       var categoryIsNotNull = false;
@@ -26,7 +28,7 @@ const Stats = ({backSettings , lists , category}) => {
         
       }
 
-      categoryIsNotNull ? valueToReturn.push({category: nameCat , count: count}) : valueToReturn.push({category: testC[i].name , count: 0})
+      categoryIsNotNull ? valueToReturn.push([nameCat , count]) : valueToReturn.push([testC[i].name , 0])
       count = 0
       nameCat = ''
     }
@@ -37,7 +39,7 @@ const Stats = ({backSettings , lists , category}) => {
 
   // Get quantity of article by category
   function getQuantityArticle(){
-    var valueToReturn = []
+    var valueToReturn = [["Category" , "Quantity"]]
 
     var count = 0
     var nameCat = ''
@@ -57,7 +59,7 @@ const Stats = ({backSettings , lists , category}) => {
         }
       }
 
-      categoryNotArticle ? valueToReturn.push({qteArticle: count , category: nameCat}) : valueToReturn.push({qteArticle:0 , name:testC[i].name})
+      categoryNotArticle ? valueToReturn.push([nameCat, count ]) : valueToReturn.push([testC[i].name ,0])
 
       count = 0
       // nameCat
@@ -105,14 +107,17 @@ const Stats = ({backSettings , lists , category}) => {
   // Article categorize by stocked or not
   function articleInStock(){
     var valueToReturn = [
-      {
-        inStock: true,
-        quantity:0
-      },
-      {
-        inStock: false,
-        quantity:0
-      }
+      // {
+      //   inStock: true,
+      //   quantity:0
+      // },
+      // {
+      //   inStock: false,
+      //   quantity:0
+      // }
+      ["In stock" , "Value"],
+      ["Yes" , 0],
+      ["No" , 0]
     ]
     // var countStocked = 0
     // var countNotStocked = 0
@@ -120,10 +125,10 @@ const Stats = ({backSettings , lists , category}) => {
 
       if(test[i].stocked === true){
         // Index 0 = Article in Stock is true
-        valueToReturn[0].quantity++
+        valueToReturn[1][1]++
       }else{
         // Index 1 = Article in Stock is false
-        valueToReturn[1].quantity++
+        valueToReturn[2][1]++
       }
     }
 
@@ -162,11 +167,17 @@ const Stats = ({backSettings , lists , category}) => {
     return valueToReturn;
   }
 
+  const dataArticleByCategory = getArticleByCategory();
+  const dataQuantityArticle = getQuantityArticle() // by category
+  const dataavgPriceByCategory = avgPriceByCategory()
+  const dataarticleInStock = articleInStock()
+  const dataarticleStockedByCategory = articleStockedByCategory()
+
   console.log('Index Article by category' , getArticleByCategory())
-  console.log('Quantity of article by cateogry', getQuantityArticle())
-  console.log('Prix moyen des article par category', avgPriceByCategory())
-  console.log('Number of products in stock or not' , articleInStock())
-  console.log('Stocked or not by Category' , articleStockedByCategory())
+//   console.log('Quantity of article by cateogry', getQuantityArticle())
+//   console.log('Prix moyen des article par category', avgPriceByCategory())
+//   console.log('Number of products in stock or not' , articleInStock())
+//   console.log('Stocked or not by Category' , articleStockedByCategory())
 
 
   return (
@@ -180,11 +191,27 @@ const Stats = ({backSettings , lists , category}) => {
             <Col>
                 <Card style={{fontFamily:'montserrat'}}>
                     <Card.Title as={'h4'}>Article by category</Card.Title>
+                    <Chart
+                      chartType="Bar"
+                      width="100%"
+                      height="400px"
+                      data={dataArticleByCategory}
+                      // options={options}
+                    />
                 </Card>
             </Col>
             <Col>
                 <Card style={{fontFamily:'montserrat'}}>
-                    <Card.Title as={'h4'}>Quantity of article by category</Card.Title>
+                    <Card.Title as={'h4'}>Percent of your product in stock by category</Card.Title>
+                    <Chart
+                      chartType="PieChart"
+                      width="100%"
+                      height="400px"
+                      data={dataQuantityArticle}
+                      options={{
+                        is3D:true
+                      }}
+                    />
                 </Card>
             </Col>
             {/* <hr /> */}
@@ -196,6 +223,15 @@ const Stats = ({backSettings , lists , category}) => {
             <Col>
                 <Card style={{fontFamily:'montserrat'}}>
                     <Card.Title as={'h4'}>Article in stock or not</Card.Title>
+                    <Chart
+                      chartType="PieChart"
+                      width="100%"
+                      height="400px"
+                      data={dataarticleInStock}
+                      options={
+                        {is3D:true}
+                      }
+                    />
                 </Card>
             </Col>
         </Row>
