@@ -70,9 +70,11 @@ const Stats = ({backSettings , lists , category}) => {
 
   // Get the average price of article by category
   function avgPriceByCategory(){
-    let valueToReturn = []
+    let valueToReturn = [
+      ['Category' , 'Average']
+    ]
 
-    let avg = 0;
+    let avg = 0
     let countArt = 0
     let nameCat = ''
 
@@ -92,9 +94,9 @@ const Stats = ({backSettings , lists , category}) => {
 
       }
 
-      avg = Math.round((avg/countArt + Number.EPSILON) * 100) / 100 
+      avg = Math.round((avg/countArt + Number.EPSILON) * 100) / 100
 
-      categoryPresent ? valueToReturn.push({category: nameCat , avgPrice: avg}) : valueToReturn.push({category: testC[i].name , avgPrice: 0})
+      categoryPresent ? valueToReturn.push([nameCat , avg]) : valueToReturn.push([testC[i].name , 0])
 
       avg = 0
       countArt = 0
@@ -138,26 +140,24 @@ const Stats = ({backSettings , lists , category}) => {
 
   function articleStockedByCategory(){
 
-    let valueToReturn = []
+    let valueToReturn = [
+      ['Category','In Stock' , 'Not in Stock']
+    ]
     // Parcourir les category
     // Parcourir les articles
     // Check si l'article est en stock ou non
 
-    for(let i = 0 ; i < testC.length ; i++){
+    for(let i = 1 ; i < testC.length ; i++){
 
       // Add the name of category
-      valueToReturn.push({
-        category: testC[i].name,
-        inStock:0,
-        notInStock:0
-      })
+      valueToReturn.push([testC[i].name, 0 , 0])
       
       for(let j = 0 ; j < test.length ; j++){
         // Update the new object which was add now 
-        if((testC[i].name === test[j].category) && test[j].stocked === true){
-          valueToReturn[i].inStock++
-        }else if((testC[i].name === test[j].category) && test[j].stocked === false){
-          valueToReturn[i].notInStock++
+        if((valueToReturn[i][0] === test[j].category) && test[j].stocked === true){
+          valueToReturn[i][1]++
+        }else if((valueToReturn[i][0] === test[j].category) && test[j].stocked === false){
+          valueToReturn[i][2]++
         }else{
           continue
         }
@@ -175,9 +175,9 @@ const Stats = ({backSettings , lists , category}) => {
 
   console.log('Index Article by category' , getArticleByCategory())
 //   console.log('Quantity of article by cateogry', getQuantityArticle())
-//   console.log('Prix moyen des article par category', avgPriceByCategory())
+  console.log('Prix moyen des article par category', avgPriceByCategory())
 //   console.log('Number of products in stock or not' , articleInStock())
-//   console.log('Stocked or not by Category' , articleStockedByCategory())
+  console.log('Stocked or not by Category' , articleStockedByCategory())
 
 
   return (
@@ -218,6 +218,17 @@ const Stats = ({backSettings , lists , category}) => {
             <Col>
                 <Card style={{fontFamily:'montserrat'}}>
                     <Card.Title as={'h4'}>Average price of articles by category</Card.Title>
+                    {/* Use chart Line for this Visu */}
+
+                    <Chart
+                      chartType="LineChart"
+                      width="100%"
+                      height="400px"
+                      data={dataavgPriceByCategory}
+                      options={
+                        {curveType: "function"}
+                      }
+                    />
                 </Card>
             </Col>
             <Col>
