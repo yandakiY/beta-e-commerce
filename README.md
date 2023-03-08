@@ -70,10 +70,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
 
 
-# Management Articles 
+# Management Articles [Logo](/assets/logo.PNG)
+
 Management articles is my first big project done in **React JS**.
 
-## `What's React ?` 
+### `What's React ?` 
 React is a JavaScript library for building user interfaces.
 
 1. Declarative: React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
@@ -83,7 +84,39 @@ React is a JavaScript library for building user interfaces.
 
 In addition to React I used **Firebase**, **React Bootstrap** and **react-google-charts**
 
-## `Why use these Tools ?`
-- *Firebase* is use for the authentifcation of users and the storage of Information of the articles. We use specially Authentifcation and Realtime Storage.
-- *React Bootstrap* is use for make easily the components UI of web application.
-- *React Google charts* is use for make the charts for the part Data Visualization of data.
+### `Why use these Tools ?`
+* *Firebase* is use for the authentifcation of users and the storage of Information of the articles. We use specially Authentifcation and Realtime Storage.
+* *React Bootstrap* is use for make easily the components UI of web application.
+* *React Google charts* is use for make the charts for the part Data Visualization of data.
+
+## How Install ?
+
+```
+git clone https://github.com/yandakiY/beta-e-commerce.git
+npm install
+npm start
+```
+
+### How look application ?
+
+- Home Page
+[Home page](/assets/home.PNG)
+
+-Admin Page (Login and Register)
+[Admin Page](/assets/Auth.PNG)
+[Admin Page](/assets/Auth_.PNG)
+
+- About me Page
+[About me](/assets/AboutMe.PNG)
+
+-Settins Page
+[Settings Page](/assets/settings.PNG)
+
+1- View Lists Articles 
+[View Lists Articles](/assets/settings_Lists.PNG)
+2- View Stats Data 
+[View Lists Articles](/assets/settings_Stats.PNG.PNG)
+
+## Licenses
+
+#### `License MIT`
