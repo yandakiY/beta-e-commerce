@@ -69,8 +69,8 @@ This section has moved here: ![https://facebook.github.io/create-react-app/docs/
 
 This section has moved here: ![https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
 
-
-# Management Articles ![Logo](/assets/logo.PNG)
+# Management Articles
+## Logo  ![Logo](/assets/logo.PNG)
 
 Management articles is my first big project done in **React JS**.
 
@@ -79,7 +79,7 @@ React is a JavaScript library for building user interfaces.
 
 1. Declarative: React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 2. Component-Based: Build encapsulated components that manage their own state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep the state out of the DOM.
-3. Learn Once, Write Anywhere: We don't make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using Node and power mobile apps using ![React Native]().
+3. Learn Once, Write Anywhere: We don't make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using Node and power mobile apps using [React Native]().
 
 
 In addition to React I used **Firebase**, **React Bootstrap** and **react-google-charts**
@@ -114,8 +114,9 @@ npm start
 
 1- View Lists Articles 
 ![View Lists Articles](/assets/settings_Lists.PNG)
+
 2- View Stats Data 
-![View Lists Articles](/assets/settings_Stats.PNG.PNG)
+![View Lists Articles](/assets/settings_Stats.PNG)
 
 ## Licenses
 
