@@ -1,7 +1,7 @@
 import React from 'react'
 // import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie } from 'recharts';
 import { Chart } from "react-google-charts";
-import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row , Spinner } from 'react-bootstrap'
 import { BsArrowLeft } from 'react-icons/bs'
 
 const Stats = ({backSettings , lists , category}) => {
@@ -171,13 +171,13 @@ const Stats = ({backSettings , lists , category}) => {
   const dataQuantityArticle = getQuantityArticle() // by category
   const dataavgPriceByCategory = avgPriceByCategory()
   const dataarticleInStock = articleInStock()
-  const dataarticleStockedByCategory = articleStockedByCategory()
+  // const dataarticleStockedByCategory = articleStockedByCategory()
 
-  console.log('Index Article by category' , getArticleByCategory())
-//   console.log('Quantity of article by cateogry', getQuantityArticle())
-  console.log('Prix moyen des article par category', avgPriceByCategory())
-//   console.log('Number of products in stock or not' , articleInStock())
-  console.log('Stocked or not by Category' , articleStockedByCategory())
+//   console.log('Index Article by category' , getArticleByCategory())
+// //   console.log('Quantity of article by cateogry', getQuantityArticle())
+//   console.log('Prix moyen des article par category', avgPriceByCategory())
+// //   console.log('Number of products in stock or not' , articleInStock())
+//   console.log('Stocked or not by Category' , articleStockedByCategory())
 
 
   return (
