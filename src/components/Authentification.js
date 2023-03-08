@@ -87,6 +87,7 @@ const Authentification = () => {
                 // )
 
                 // Utilisez un setteur pour dire ok identification OK 4 page
+                
                 setSendSettings(true);
             })
             .catch((error) => {

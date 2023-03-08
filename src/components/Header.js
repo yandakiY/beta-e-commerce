@@ -6,7 +6,7 @@ import { filterActions } from '../store/filter-slice';
 import { BsFillCartFill , BsFillGearFill , BsFillFilePersonFill } from "react-icons/bs";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { auth } from '../firebase/firebase';
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigate , Link, NavLink, redirect } from 'react-router-dom';
 
 const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
@@ -18,7 +18,7 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
 
     // console.log("CUrrent user", auth.currentUser)
     const authCurrent = auth.currentUser === null ? false : auth.currentUser
-    const [isAuth , setIsAuth] = React.useState(auth.currentUser === null ? false : true)
+    const [isAuth , setIsAuth] = React.useState({displayName:'', email:''})
 
     // const search = useSelector(state => state.filter.search);
     const available = useSelector(state => state.filter.available);
@@ -37,6 +37,25 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
     }
     
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          // const uid = user.uid;
+          // ...
+          // console.log("Yes",user)
+          // setisAuthViaNavLink(user)
+          setIsAuth(user)
+        } else {
+          // User is signed out
+          // ...
+          console.log("No", user)
+          // setisAuthViaNavLink()
+        }
+      });
+    }, []);
 
     // const goAuth = () =>{
     //   navigate('/auth' , {state:{viewLogin: userInfo !== '' ? false : true}})
@@ -61,7 +80,7 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
 
             <div>
                 <Form.Control {...register('search')} onChange={e => changeSearch(e.target.value)} type='search' placeholder='Search...'/>
-            </div>
+            </div>558
 
             <Nav style={{display:'flex', alignItems:'center'}}>
               <NavLink style={{color:'whitesmoke' , textDecoration:'none', marginRight:'25px'}} to={'/auth'}>
@@ -70,19 +89,19 @@ const Header = ({changeSearch , userInfo , myAuth , changeAvailable}) => {
               <NavLink style={{color:'whitesmoke' , textDecoration:'none', marginRight:'25px'}} to={'/about'} state={{test:false}} >
                 <h5>About Me</h5>
               </NavLink>
-              {isAuth && 
+              {isAuth.displayName !== '' && 
                 <NavLink style={{color:'whitesmoke' , textDecoration:'none', marginRight:'25px'}} to={'/settings'} state={{isAuth: isAuth}}>
                   <h5>Settings</h5>
                 </NavLink>
               }
-              {isAuth && 
+              {isAuth.displayName !== '' && 
                 <h5>
                   <NavDropdown
                     id="nav-dropdown-dark-example"
                     title="Options"
                     menuVariant="dark"
                   >
-                    <NavDropdown.Item>{authCurrent.displayName} ({authCurrent.email})</NavDropdown.Item>
+                    <NavDropdown.Item>{isAuth.displayName} ({isAuth.email})</NavDropdown.Item>
                     <NavDropdown.Item onClick={deconnexion} style={{fontWeight:'bold'}} className='text-danger'>
                       Deconnexion
                     </NavDropdown.Item>

@@ -16,7 +16,7 @@ import axiosCategory from '../api-axios/axiosCategory'
 import { auth, storage } from '../firebase/firebase'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
 import { redirect , useNavigate , NavLink , Navigate, useLocation } from 'react-router-dom'
-import { signOut } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import SettingsTable from './Sattings-components/Settings-Table'
 import SettingsStats from './Sattings-components/Settings-Stats'
 
@@ -56,7 +56,24 @@ const Setting = () => {
     const [viewAddCategories , setviewAddCategories] = useState(false)
     const [viewAddArticles , setviewAddArticles] = useState(false)
 
-    const isAuthViaNavLink = auth.currentUser === null ? false : auth.currentUser
+    const [isAuthViaNavLink , setisAuthViaNavLink] = React.useState({displayName:'',email:''})
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     // User is signed in, see docs for a list of available properties
+    //     // https://firebase.google.com/docs/reference/js/firebase.User
+    //     // const uid = user.uid;
+    //     // ...
+    //     // console.log("Yes",user)
+    //     setisAuthViaNavLink(user)
+    //   } else {
+    //     // User is signed out
+    //     // ...
+    //     console.log("No", user)
+    //     // setisAuthViaNavLink()
+    //   }
+    // });
+
+    // const isAuthViaNavLink = auth.currentUser === null ? false : auth.currentUser
 
 
     const dispatch = useDispatch();
@@ -182,17 +199,33 @@ const Setting = () => {
             dispatch(actionsCategory.setCategory(categoryFormServer));
         }
 
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            // const uid = user.uid;
+            // ...
+            // console.log("Yes",user)
+            setisAuthViaNavLink(user)
+          } else {
+            // User is signed out
+            // ...
+            console.log("No", user)
+            // setisAuthViaNavLink()
+          }
+        });
+
         getListsFromServer();
         getCategoryFromServer();
         // setIsAuth(userInfo)
         
-    }, []);
+    }, [dispatch]);
 
-    console.log('View stats' , viewStats)
-    console.log('View lists' , viewLists)
+    // console.log('View stats' , viewStats)
+    // console.log('View lists' , viewLists)
 
   return (
-    isAuthViaNavLink ? 
+    isAuthViaNavLink !== false ? 
       <>
           <Navbar expand="lg" variant="dark" bg="dark" fixed="top">
             <Container>
@@ -213,7 +246,7 @@ const Setting = () => {
                 <NavLink style={{color:'whitesmoke' , textDecoration:'none' , marginRight:'15px'}} to={'/'}>
                   <h5>Go Home</h5>
                 </NavLink>
-                {isAuthViaNavLink && 
+                {/* {isAuthViaNavLink &&  */}
                   <h5>
                     <NavDropdown
                       id="nav-dropdown-dark-example"
@@ -227,7 +260,7 @@ const Setting = () => {
                       {/* <NavDropdown.Item>Something</NavDropdown.Item> */}
                     </NavDropdown>
                   </h5>
-                }
+                {/* } */}
               </Nav>
             </Container>
           </Navbar>
@@ -276,6 +309,7 @@ const Setting = () => {
       </> 
       : 
     <Navigate to={'/auth-denied'} />
+    // <>test</>
   )
 }
 
