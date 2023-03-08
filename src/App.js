@@ -94,7 +94,7 @@ function App() {
   // // console.log('Test' , test)
   // // console.log('Test Cat' , testC)
 
-  
+  console.log(process.env.REACT_APP_MY_API_KEY)
 
 
 
